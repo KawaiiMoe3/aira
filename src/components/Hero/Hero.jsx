@@ -13,18 +13,15 @@ export default function Hero() {
             data-aos-once="true"
             className="flex flex-col items-center gap-4 text-center text-white md:items-start md:text-left "
           >
-            <h1 className=" text-4xl ">
-              Empower Your Resume with AI-Powered Insights
+            <h1 className=" text-4xl font-bold">
+              Empower Your Resume with <span className='text-cyan-300'>AI-Powered Insights</span>
             </h1>
-            <p className="">
-              Optimize your resume, get ATS-ready, and land your dream job faster.
+            <p className="text-xl">
+              Get personalized, data-driven tips to improve your resume instantly. Use AI to highlight your strengths, fix weaknesses, and land interviews faster.
             </p>
             <div className="space-x-4">
               <button className="btn-primary">
                 Get Started
-              </button>
-              <button className="btn-outline">
-                Login
               </button>
             </div>
           </div>

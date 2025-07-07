@@ -40,7 +40,7 @@ export default function ResponsiveMenu({ showMenu }) {
                 </nav>
             </div>
             <div className="footer">
-                <h1>© 2022 All Rights Reserved</h1>
+                <h1>© 2025 All Rights Reserved</h1>
             </div>
         </div>
     )

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { BiPhoneCall, BiSolidMoon, BiSolidSun } from 'react-icons/bi';
+import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
 import { FaCaretDown } from 'react-icons/fa';
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi';
 import ResponsiveMenu from './ResponsiveMenu';
+import aira from '../../assets/aira.png';
+import n1 from '../../assets/Navbar/n1.jpg';
+import n2 from '../../assets/Navbar/n2.jpg';
 
 export default function Navbar() {
     const [theme, setTheme] = useState(
@@ -49,101 +52,97 @@ export default function Navbar() {
                     {/* Logo section */}
                     <div className='text-2xl md:text-3xl text-white'>
                         <a href="#">
-                            {" "}
-                            <span className='inline-block font-bold text-primary'>AIRA</span>
+                            <img src={aira} alt="aira" className='h-10 w-auto' />
                         </a>
                     </div>
                     {/* Desktop menu section */}
                     <div className='hidden md:block'>
                         <ul className='flex items-center gap-4'>
+                            <li className="cursor pointer">
+                                <a href="/#Home">Home</a>
+                            </li>
                             <li className='group relative cursor-pointer'>
-                                <a href="#" className='flex items-center gap-[2px] h-[72px]'>
-                                    Home
+                                <span className='flex items-center gap-[2px] h-[72px]'>
+                                    About
                                     <span>
                                         <FaCaretDown className='transition-all duration-200 group-hover:rotate-180' />
                                     </span>
-                                </a>
+                                </span>
                                 {/* Dropdown section */}
                                 <div className='absolute -left-9 z-[99999] hidden w-[150px] bg-white shadow-md p-2 text-black rounded-md group-hover:block'>
                                     <ul className='space-y-3'>
-                                        <li className='p-2 hover:bg-violet-200'>Services</li>
                                         <li className='p-2 hover:bg-violet-200'>About Us</li>
-                                        <li className='p-2 hover:bg-violet-200'>Privacy Policy</li>
+                                        <li className='p-2 hover:bg-violet-200'>FAQs</li>
                                     </ul>
                                 </div>
                             </li>
                             <li className='group cursor-pointer'>
-                                <a href="#" className='flex items-center gap-[2px] h-[72px]'>
-                                    Services
+                                <span className='flex items-center gap-[2px] h-[72px]'>
+                                    Resources
                                     <span>
                                         <FaCaretDown className='transition-all duration-200 group-hover:rotate-180' />
                                     </span>
-                                </a>
+                                </span>
                                 {/* Dropdown full width section */}
                                 <div className='absolute left-0 z-[99999] hidden w-full rounded-b-3xl bg-white p-2 text-black shadow-md group-hover:block'>
                                     <div className='grid grid-cols-3 gap-5'>
                                         <div className='overflow-hidden'>
                                             <img 
-                                                src="https://d2opxh93rbxzdn.cloudfront.net/original/2X/4/40cfa8ca1f24ac29cfebcb1460b5cafb213b6105.png" 
-                                                alt="pics" 
-                                                className='max-h-[300px] w-full rounded-b-3xl object-fill' 
+                                                src={n1} 
+                                                alt="No image" 
+                                                className='max-h-[300px] w-full rounded-b-3xl object-contain' 
                                             />
                                         </div>
                                         <div className="col-span-2">
-                                            <h1 className="pb-3 text-xl font-semibold">Best Selling</h1>
+                                            <h1 className="pb-3 text-xl font-semibold">Useful Resources</h1>
                                             <p className="text-sm text-slate-600">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                            Aspernatur exercitationem delectus iusto animi aperiam
-                                            deleniti reprehenderit doloribus, numquam corporis quae.
+                                                Explore expert resume writing guides, real-world examples, and customizable templates — everything you need to craft a resume that stands out.
                                             </p>
                                             <div className="grid grid-cols-3 ">
                                             <ul className="mt-3 flex flex-col gap-2">
                                                 <h1 className="pb-1 text-xl font-semibold">
-                                                    Development
+                                                    Resume
                                                 </h1>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    Web development
+                                                    Resume Writing Guides
                                                 </li>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    IOS App Development
+                                                    Resume Examples
                                                 </li>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    App Development
+                                                    Resume Templates
                                                 </li>
                                             </ul>
                                             <ul className="mt-3 flex flex-col gap-2">
                                                 <h1 className="pb-1 text-xl font-semibold">
-                                                    Other Services
+                                                    Cover Letter
                                                 </h1>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    Cloud Services
+                                                    Cover Letter Writing Guides
                                                 </li>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    Mobile App
+                                                    Cover Letter Example
                                                 </li>
                                                 <li className="cursor-pointer text-black/80 hover:text-primary">
-                                                    App Development
+                                                    Cover Letter Templates
                                                 </li>
                                             </ul>
                                             <div>
-                                                <img src="https://picsum.photos/180" alt="no image" />
+                                                <img 
+                                                    src={n2} 
+                                                    alt="no image" 
+                                                    className='mt-4 max-h-[200px] w-full rounded-b-3xl object-contain' 
+                                                />
                                             </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li className="cursor pointer">
-                                <a href="/#contact">Contact</a>
-                            </li>
                             <li>
                                 <div className="flex items-center gap-4">
                                     <div>
-                                        <BiPhoneCall className="h-[40px] w-[40px] rounded-md bg-primary p-2 text-2xl text-white hover:bg-primary/90" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm">Call us on</p>
-                                        <p className="text-lg">+91 123456789</p>
+                                        <button className='btn-primary'>Sign In</button>
                                     </div>
                                 </div>
                             </li>
