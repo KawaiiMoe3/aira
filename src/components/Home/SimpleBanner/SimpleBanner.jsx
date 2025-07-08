@@ -13,10 +13,9 @@ export default function SimpleBanner() {
             <iframe
               className='aspect-video w-full'
               src="https://www.youtube.com/embed/pjqi_M3SPwY?si=eeAWriBfmYcpe3w3" 
-              title="YouTube video player" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" 
-              allowfullscreen
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" 
+              allowFullScreen
             ></iframe>
           </div>
           <div className='flex flex-col items-center gap-4 text-center text-white dark:text-white md:col-span-2  md:items-start md:text-left'>

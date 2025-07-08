@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
 import { FaCaretDown } from 'react-icons/fa';
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi';
@@ -59,7 +60,7 @@ export default function Navbar() {
                     <div className='hidden md:block'>
                         <ul className='flex items-center gap-4'>
                             <li className="cursor pointer">
-                                <a href="/#Home">Home</a>
+                                <Link to="/">Home</Link>
                             </li>
                             <li className='group relative cursor-pointer'>
                                 <span className='flex items-center gap-[2px] h-[72px]'>

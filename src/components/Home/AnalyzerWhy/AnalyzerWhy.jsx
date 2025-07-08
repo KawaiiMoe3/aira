@@ -1,6 +1,6 @@
 import React from 'react'
 import AnalyzerWhyCard from './AnalyzerWhyCard'
-import { analyzerWhyData } from '../../data/analyzerWhyData';
+import { analyzerWhyData } from '../../../data/analyzerWhyData';
 
 export default function AnalyzerWhy() {
   return (

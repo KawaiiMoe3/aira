@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { FaLocationArrow, FaMobileAlt, FaInstagram, FaFacebook, FaLinkedin, FaGithub } from 'react-icons/fa'
 import aira from '../../assets/aira.png';
 
@@ -32,17 +33,14 @@ export default function Footer() {
                         <div className="">
                             <div className="px-4 py-8 ">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">
-                                    Important Links
+                                    Links
                                 </h1>
                                 <ul className={`flex flex-col gap-3`}>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
-                                        Home
+                                        <Link to="/">Home</Link>
                                     </li>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
                                         About
-                                    </li>
-                                    <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
-                                        Resume Analyzer
                                     </li>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
                                         FAQs
@@ -53,7 +51,7 @@ export default function Footer() {
                         <div className="">
                             <div className="px-4 py-8 ">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">
-                                    Links
+                                    Resources
                                 </h1>
                                 <ul className="flex flex-col gap-3">
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">

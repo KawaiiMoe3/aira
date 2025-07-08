@@ -1,10 +1,10 @@
 import React from 'react'
-import HeroImg from '../../assets/hero.png';
+import HeroImg from '../../../assets/hero.png';
 
 export default function Hero() {
   return (
     <div className='bg-gradient-to-r from-violet-950 to-violet-900 pt-20 dark:bg-violet-950'>
-      <section className='container flex h-[650px] flex-col items-center justify-center md:h-[500px]'>
+      <section className='container flex h-[750px] flex-col items-center justify-center md:h-[500px]'>
         <div className='grid grid-cols-1 items-center gap-8 dark:text-white md:grid-cols-2'>
           {/* Hero text container */}
           <div
