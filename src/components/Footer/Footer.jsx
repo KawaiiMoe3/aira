@@ -11,9 +11,9 @@ export default function Footer() {
                 <div className=" grid py-5 md:grid-cols-3">
                     <div className=" px-4 py-8 ">
                         <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-3xl">
-                            <a href="/#home" className="">
+                            <Link to="/">
                                 <img src={aira} alt="aira" className='h-14 w-auto' />
-                            </a>
+                            </Link>
                         </h1>
                         <p className="">
                             A FYP project about resume analyzer powered by AI and built with React, Tailwind CSS, and Django (REST API).
@@ -40,7 +40,7 @@ export default function Footer() {
                                         <Link to="/">Home</Link>
                                     </li>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
-                                        About
+                                        <Link to="/about">About AIRA</Link>
                                     </li>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
                                         FAQs

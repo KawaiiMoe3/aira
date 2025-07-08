@@ -58,9 +58,12 @@ export default function ResponsiveMenu({ showMenu }) {
                             {activeDropdown === "about" && (
                                 <ul className="ml-4 mt-2 space-y-2 text-base text-slate-700 dark:text-slate-300">
                                     <li>
-                                        <a href="#" className="block hover:text-primary">
-                                            About Us
-                                        </a>
+                                        <Link
+                                            to="/about"
+                                            className='mb-2 inline-block'
+                                        >
+                                            About AIRA
+                                        </Link>
                                     </li>
                                     <li>
                                         <a href="#" className="block hover:text-primary">

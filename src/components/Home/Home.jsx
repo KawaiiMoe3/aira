@@ -5,10 +5,17 @@ import BannerDetails from './BannerDetails/BannerDetails';
 import { bannerDetailsData } from '../../data/BannerDetailsData';
 import SimpleBanner from './SimpleBanner/SimpleBanner';
 import AnalyzerWhy from './AnalyzerWhy/AnalyzerWhy';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer/Footer';
+import { Helmet } from 'react-helmet';
 
 export default function Home() {
     return (
         <div className='dark:bg-slate-900 bg-white'>
+            <Helmet>
+                <title>AIRA | AI Resume Analyzer for Enhancing & Optimizing</title>
+            </Helmet>
+            <Navbar />
             <Hero />
             <OverviewConter />
             {
@@ -25,6 +32,7 @@ export default function Home() {
             }
             <SimpleBanner />
             <AnalyzerWhy />
+            <Footer />
         </div>
     )
 }

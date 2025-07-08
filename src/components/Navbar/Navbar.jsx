@@ -52,9 +52,9 @@ export default function Navbar() {
                 <nav className='container flex h-[70px] items-center justify-between py-2 px-2'>
                     {/* Logo section */}
                     <div className='text-2xl md:text-3xl text-white'>
-                        <a href="#">
+                        <Link to="/">
                             <img src={aira} alt="aira" className='h-10 w-auto' />
-                        </a>
+                        </Link>
                     </div>
                     {/* Desktop menu section */}
                     <div className='hidden md:block'>
@@ -70,10 +70,12 @@ export default function Navbar() {
                                     </span>
                                 </span>
                                 {/* Dropdown section */}
-                                <div className='absolute -left-9 z-[99999] hidden w-[150px] bg-white shadow-md p-2 text-black rounded-md group-hover:block'>
+                                <div className='absolute -left-9 z-[99999] hidden w-[150px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-md p-2 text-white rounded-md group-hover:block'>
                                     <ul className='space-y-3'>
-                                        <li className='p-2 hover:bg-violet-200'>About Us</li>
-                                        <li className='p-2 hover:bg-violet-200'>FAQs</li>
+                                        <li className='p-2 hover:bg-violet-500'>
+                                            <Link to="/about">About AIRA</Link>
+                                        </li>
+                                        <li className='p-2 hover:bg-violet-500'>FAQs</li>
                                     </ul>
                                 </div>
                             </li>
@@ -85,7 +87,7 @@ export default function Navbar() {
                                     </span>
                                 </span>
                                 {/* Dropdown full width section */}
-                                <div className='absolute left-0 z-[99999] hidden w-full rounded-b-3xl bg-white p-2 text-black shadow-md group-hover:block'>
+                                <div className='absolute left-0 z-[99999] hidden w-full rounded-b-3xl bg-gradient-to-r from-[#8741eb] to-[#5b4be7] p-2 text-white shadow-md group-hover:block'>
                                     <div className='grid grid-cols-3 gap-5'>
                                         <div className='overflow-hidden'>
                                             <img 
@@ -96,7 +98,7 @@ export default function Navbar() {
                                         </div>
                                         <div className="col-span-2">
                                             <h1 className="pb-3 text-xl font-semibold">Useful Resources</h1>
-                                            <p className="text-sm text-slate-600">
+                                            <p className="text-sm text-slate-300">
                                                 Explore expert resume writing guides, real-world examples, and customizable templates — everything you need to craft a resume that stands out.
                                             </p>
                                             <div className="grid grid-cols-3 ">
@@ -104,13 +106,13 @@ export default function Navbar() {
                                                 <h1 className="pb-1 text-xl font-semibold">
                                                     Resume
                                                 </h1>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Resume Writing Guides
                                                 </li>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Resume Examples
                                                 </li>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Resume Templates
                                                 </li>
                                             </ul>
@@ -118,13 +120,13 @@ export default function Navbar() {
                                                 <h1 className="pb-1 text-xl font-semibold">
                                                     Cover Letter
                                                 </h1>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Cover Letter Writing Guides
                                                 </li>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Cover Letter Example
                                                 </li>
-                                                <li className="cursor-pointer text-black/80 hover:text-primary">
+                                                <li className="cursor-pointer text-white/80 hover:text-slate-400">
                                                     Cover Letter Templates
                                                 </li>
                                             </ul>

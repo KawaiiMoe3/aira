@@ -1,11 +1,11 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from './components/Navbar/Navbar';
-import Home from './components/Home/Home';
-import Footer from './components/Footer/Footer';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import Home from './components/Home/Home';
+import GoToTopButton from './components/GoToTopButton/GoToTopButton';
+import About from './components/About/About';
 
 export default function App() {
   useEffect(() => {
@@ -20,15 +20,11 @@ export default function App() {
   
   return (
     <BrowserRouter>
-      <div className='dark:bg-slate-900 bg-white'>
-        <Navbar />
-        
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
         </Routes>
-        
-        <Footer />
-      </div>
+        <GoToTopButton />
     </BrowserRouter>
   );
 }
