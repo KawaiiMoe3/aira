@@ -1,5 +1,6 @@
 import React from 'react'
 import HeroImg from '../../../assets/hero.png';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -19,10 +20,10 @@ export default function Hero() {
             <p className="text-xl">
               Get personalized, data-driven tips to improve your resume instantly. Use AI to highlight your strengths, fix weaknesses, and land interviews faster.
             </p>
-            <div className="space-x-4">
-              <button className="btn-primary">
+            <div className="space-x-4 mt-4">
+              <Link to="/signin" className="btn-primary">
                 Get Started
-              </button>
+              </Link>
             </div>
           </div>
           {/* Hero image container */}

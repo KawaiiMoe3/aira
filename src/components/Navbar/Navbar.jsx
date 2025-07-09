@@ -147,7 +147,7 @@ export default function Navbar() {
                             <li>
                                 <div className="flex items-center gap-4">
                                     <div>
-                                        <button className='btn-primary'>Sign In</button>
+                                        <Link to="/signin" className="btn-primary">Sign In</Link>
                                     </div>
                                 </div>
                             </li>

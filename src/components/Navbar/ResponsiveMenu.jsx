@@ -123,9 +123,9 @@ export default function ResponsiveMenu({ showMenu }) {
                             )}
                         </li>
                         <li>
-                            <button className="mb-5 inline-block btn-primary">
+                            <Link to="/signin" className="mb-5 inline-block btn-primary">
                                 Sign In
-                            </button>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
