@@ -1,29 +1,41 @@
-import bd1 from '../assets/BannerDetails/bd1.jpg';
 import bd2 from '../assets/BannerDetails/bd2.png';
+import bd3 from '../assets/BannerDetails/bd3.png';
+import bd4 from '../assets/BannerDetails/bd4.jpg';
 
 export const bannerDetailsData = [
     {
         id: 1,
         reverse: false,
-        title: "We Build Apps That Get Trending On Appworld",
-        description: "Our team focuses on creating impactful and trending apps that users love.",
+        title: "Smart Resume Analysis",
+        description: "Receive instant, AI-driven feedback to boost your resume's impact and job-match potential.",
         points: [
-            "Top-ranked on multiple app platforms",
-            "Custom development tailored to your needs",
-            "Continuous updates and optimizations"
+            "Highlights gaps in essential skills or experience",
+            "Recommends tailored improvements based on your target industry",
         ],
-        image: bd1,
+        image: bd2,
     },
     {
         id: 2,
         reverse: true,
-        title: "Your Business, Supercharged by Smart AI",
-        description: "Integrate powerful AI into your business to unlock automation and insights.",
+        title: "Detailed Insights",
+        description: "Gain a clear understanding of your resume's performance across essential metrics.",
         points: [
-            "AI-powered resume analysis in seconds",
-            "Personalized job-matching suggestions",
-            "Secure and privacy-compliant processing"
+            "Offers a readability score with actionable suggestions",
+            "Evaluates the strength and clarity of achievement statements",
+            "Benchmarks your resume against industry standards"
         ],
-        image: bd2,
+        image: bd3,
+    },
+    {
+        id: 3,
+        reverse: false,
+        title: "Actionable Resume Recommendations",
+        description: "Get targeted suggestions to refine and strengthen every section of your resume.",
+        points: [
+            "Recommends impactful word choices to enhance clarity and tone",
+            "Identifies areas where metrics or results can boost credibility",
+            "Suggests layout and formatting improvements for better readability"
+        ],
+        image: bd4,
     },
 ];
