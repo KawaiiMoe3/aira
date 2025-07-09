@@ -5,7 +5,9 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Home from './components/Home/Home';
 import GoToTopButton from './components/GoToTopButton/GoToTopButton';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import About from './components/About/About';
+import Faqs from './components/FAQ/Faqs';
 
 export default function App() {
   useEffect(() => {
@@ -20,11 +22,13 @@ export default function App() {
   
   return (
     <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-        <GoToTopButton />
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faqs" element={<Faqs />} />
+      </Routes>
+      <GoToTopButton />
     </BrowserRouter>
   );
 }

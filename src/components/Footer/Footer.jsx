@@ -43,7 +43,7 @@ export default function Footer() {
                                         <Link to="/about">About AIRA</Link>
                                     </li>
                                     <li className="cursor-pointer transition-all duration-300 hover:translate-x-[2px]">
-                                        FAQs
+                                        <Link to="/faqs">FAQs</Link>
                                     </li>
                                 </ul>
                             </div>

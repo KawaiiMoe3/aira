@@ -75,7 +75,9 @@ export default function Navbar() {
                                         <li className='p-2 hover:bg-violet-500'>
                                             <Link to="/about">About AIRA</Link>
                                         </li>
-                                        <li className='p-2 hover:bg-violet-500'>FAQs</li>
+                                        <li className='p-2 hover:bg-violet-500'>
+                                            <Link to="/faqs">FAQs</Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

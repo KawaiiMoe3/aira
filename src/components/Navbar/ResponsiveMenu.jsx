@@ -66,9 +66,9 @@ export default function ResponsiveMenu({ showMenu }) {
                                         </Link>
                                     </li>
                                     <li>
-                                        <a href="#" className="block hover:text-primary">
+                                        <Link to="/faqs" className="block hover:text-primary">
                                             FAQs
-                                        </a>
+                                        </Link>
                                     </li>
                                 </ul>
                             )}
