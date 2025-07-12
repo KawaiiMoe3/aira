@@ -75,26 +75,28 @@ export default function Footer() {
                                 </ul>
                             </div>
                         </div>
-                        <div className="">
-                            <div className="px-4 py-8 ">
+                        <div className="w-full max-w-7xl mx-auto px-4">
+                            <div className="py-8">
                                 <h1 className="mb-3 text-justify text-xl font-bold sm:text-left sm:text-xl">
                                     Social Links
                                 </h1>
-                                <div className="flex flex-col gap-3">
-                                    <div className="flex items-center gap-3">
-                                        <a href="#" className="duration-200 hover:scale-105">
-                                            <FaInstagram className="text-3xl" />
-                                        </a>
-                                        <a href="#" className="duration-200 hover:scale-105">
-                                            <FaFacebook className="text-3xl" />
-                                        </a>
-                                        <a href="#" className="duration-200 hover:scale-105">
-                                            <FaLinkedin className="text-3xl" />
-                                        </a>
-                                        <a href="https://github.com/KawaiiMoe3/aira.git" target='_blank' className="duration-200 hover:scale-105">
-                                            <FaGithub className="text-3xl" />
-                                        </a>
-                                    </div>
+                                <div className="flex flex-wrap items-center gap-3 overflow-hidden">
+                                    <a href="#" className="duration-200 hover:scale-105">
+                                        <FaInstagram className="text-3xl" />
+                                    </a>
+                                    <a href="#" className="duration-200 hover:scale-105">
+                                        <FaFacebook className="text-3xl" />
+                                    </a>
+                                    <a href="#" className="duration-200 hover:scale-105">
+                                        <FaLinkedin className="text-3xl" />
+                                    </a>
+                                    <a
+                                        href="https://github.com/KawaiiMoe3/aira.git"
+                                        target="_blank"
+                                        className="duration-200 hover:scale-105 break-all"
+                                    >
+                                        <FaGithub className="text-3xl" />
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
 import { FaCaretDown } from 'react-icons/fa';
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi';
@@ -16,6 +16,7 @@ export default function Navbar() {
     const [showMenu, setShowMenu] = useState(false);
     
     const element = document.documentElement;
+    const navigate = useNavigate();
     
     const toggleMenu = () => {
         setShowMenu(!showMenu);
@@ -147,7 +148,19 @@ export default function Navbar() {
                             <li>
                                 <div className="flex items-center gap-4">
                                     <div>
-                                        <Link to="/signin" className="btn-primary">Sign In</Link>
+                                        {localStorage.getItem('user_id') ? (
+                                            <button 
+                                                onClick={() => {
+                                                    localStorage.removeItem('user_id');
+                                                    navigate('/'); // redirect to home
+                                                }} 
+                                                className="btn-primary"
+                                            >
+                                                Logout
+                                            </button>
+                                        ) : (
+                                            <Link to="/signin" className="btn-primary">Sign In</Link>
+                                        )}
                                     </div>
                                 </div>
                             </li>

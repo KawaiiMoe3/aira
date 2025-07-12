@@ -25,10 +25,7 @@ export default function Faqs() {
                     <section className='container flex h-[750px] flex-col items-center justify-center md:h-[500px]'>
                         <div className='items-center dark:text-white md:grid-cols-2'>
                             {/* Hero image container */}
-                            <div 
-                                data-aos="fade-left"
-                                data-aos-duration="400"
-                                data-aos-once="true"
+                            <div
                                 className="w-full max-w-[950px] h-auto mx-auto"
                             >
                                 <img src={faq1} alt="Not Found" className='' />

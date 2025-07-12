@@ -24,4 +24,12 @@
   .btn-outline {
     @apply bg-transparent border-2 border-[#fafafa] text-[#fafafa] text-[12px] font-bold uppercase px-6 py-3 rounded-tl-[4px] rounded-bl-[14px] rounded-tr-[14px] rounded-br-[4px] transition-colors duration-300 hover:bg-[#fafafa20] cursor-pointer;
   }
+
+  .btn-primary-w-full {
+    @apply w-full rounded-tl-[4px] rounded-bl-[14px] rounded-tr-[14px] rounded-br-[4px] 
+           bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white font-bold uppercase 
+           px-6 py-3 text-base shadow-lg hover:shadow-[#8741eb]/60 hover:brightness-110 
+           transition-all duration-300 ease-in-out;
+  }
+  
 }
