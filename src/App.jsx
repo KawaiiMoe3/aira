@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from './contexts/AuthContext';
+
 import Home from './components/Home/Home';
 import GoToTopButton from './components/GoToTopButton/GoToTopButton';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
@@ -12,16 +14,18 @@ export default function App() {
   
   
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/faqs" element={<Faqs />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
-      <GoToTopButton />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/faqs" element={<Faqs />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+        <GoToTopButton />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

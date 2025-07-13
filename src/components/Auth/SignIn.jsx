@@ -5,6 +5,8 @@ import { LuLockKeyholeOpen } from "react-icons/lu";
 import aira from "../../assets/aira.png";
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function SignIn() {
 
@@ -13,6 +15,8 @@ export default function SignIn() {
     const [errorMsg, setErrorMsg] = useState('');
     const [showError, setShowError] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { checkAuth } = useAuth(); // Get auth checker from context
 
     const navigate = useNavigate();
 
@@ -26,13 +30,24 @@ export default function SignIn() {
     
         try {
             setLoading(true);
-            const response = await axios.post('http://localhost:8000/api/signin/', {
-                email,
-                password,
-            });
+
+            // Get CSRF token
+            await axios.get('http://localhost:8000/api/csrf/');
+            // Get it from cookies
+            const csrfToken = Cookies.get('csrftoken');
+            // Send CSRF token in headers during Sign in
+            const response = await axios.post(
+                'http://localhost:8000/api/signin/',
+                { email, password },
+                {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                }
+            );
     
             if (response.status === 200) {
-                localStorage.setItem('user_id', response.data.user_id);
+                await checkAuth(); // Update global auth context
                 navigate('/');
             }
         } catch (err) {
