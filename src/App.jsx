@@ -9,6 +9,10 @@ import About from './components/About/About';
 import Faqs from './components/FAQ/Faqs';
 import SignIn from './components/Auth/SignIn';
 import SignUp from './components/Auth/SignUp';
+import UploadResume from './components/Analyzer/UploadResume';
+import Dashboard from './components/Dashboard/Dashboard';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ForgotPassword/ResetPassword';
 
 export default function App() {
   
@@ -23,6 +27,10 @@ export default function App() {
           <Route path="/faqs" element={<Faqs />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/analyzer/upload-resume" element={<UploadResume />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
         <GoToTopButton />
       </BrowserRouter>

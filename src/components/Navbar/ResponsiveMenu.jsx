@@ -1,15 +1,48 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { FaUserCircle, FaChevronDown, FaGithub } from "react-icons/fa";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import Swal from 'sweetalert2';
+
+import { FaChevronDown, FaGithub } from "react-icons/fa";
+import guest from '../../assets/guest.png';
 
 export default function ResponsiveMenu({ showMenu }) {
     // console.log("showMenu", showMenu);
+
+    const navigate = useNavigate();
 
     // Dropdown menu for 'about', 'resources'
     const [activeDropdown, setActiveDropdown] = useState(null);
     const toggleDropdown = (menu) => {
         setActiveDropdown(activeDropdown === menu ? null : menu);
     };
+
+    // Check user's logged in status
+    const { isAuthenticated, user, logout } = useAuth();
+    // Logout button
+    const handleLogout = async () => {
+        const result = await Swal.fire({
+            title: 'Leaving so soon?',
+            text: 'Are you sure you want to sign out?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Sign Out',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true,
+            customClass: {
+                title: 'custom-title',
+                htmlContainer: 'custom-text',
+                popup: 'custom-swal-bg',
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            },
+        });
+
+        if (result.isConfirmed) {
+            await logout();
+            navigate('/');
+        }
+    }
     
     return (
         <div 
@@ -24,13 +57,26 @@ export default function ResponsiveMenu({ showMenu }) {
             text-black dark:text-white`}
         >
             <div className="card">
-                <div className="flex items-center justify-start gap-3">
-                    <FaUserCircle size={50} />
-                    <div>
-                        <h1>KawaiiMoe</h1>
-                        <h1 className="text-sm text-slate-500 dark:text-slate-400">Premium user</h1>
-                    </div>
-                </div>
+                {
+                    isAuthenticated ? (
+                        <Link to="/profile" className="no-underline text-inherit">
+                            <div className="flex items-center justify-start gap-3">
+                                <img
+                                    src={user.avatar || guest}
+                                    alt="User Avatar"
+                                    className="w-12 h-12 rounded-full object-cover"
+                                />
+                                <div>
+                                    <h1>{user.username}</h1>
+                                    <h1 className="text-sm text-slate-500 dark:text-slate-400">
+                                        {user.position || "Add your position here"}
+                                    </h1>
+                                </div>
+                            </div>
+                        </Link>
+                    ) : null
+                }
+                
                 <nav className="mt-12">
                     <ul className="space-y-4 text-xl">
                         <li>
@@ -60,7 +106,7 @@ export default function ResponsiveMenu({ showMenu }) {
                                     <li>
                                         <Link
                                             to="/about"
-                                            className='mb-2 inline-block'
+                                            className='mb-2 inline-block hover:text-primary'
                                         >
                                             About AIRA
                                         </Link>
@@ -122,11 +168,43 @@ export default function ResponsiveMenu({ showMenu }) {
                                 </ul>
                             )}
                         </li>
-                        <li>
-                            <Link to="/signin" className="mb-5 inline-block btn-primary">
-                                Sign In
-                            </Link>
-                        </li>
+                        {
+                            isAuthenticated ? (
+                                <>
+                                    <li>
+                                        <Link
+                                            to="/analyzer/upload-resume"
+                                            className='mb-2 inline-block'
+                                        >
+                                            Analyzer
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/dashboard"
+                                            className='mb-2 inline-block'
+                                        >
+                                            Dashboard
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            type='button'
+                                            className='inline-block btn-primary'
+                                            onClick={handleLogout}
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </>
+                            ) : (
+                                <li>
+                                    <Link to="/signin" className="mb-5 inline-block btn-primary">
+                                        Sign In
+                                    </Link>
+                                </li>
+                            )
+                        }
                     </ul>
                 </nav>
             </div>

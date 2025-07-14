@@ -1,8 +1,13 @@
 import React from 'react'
-import HeroImg from '../../../assets/hero.png';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../contexts/AuthContext';
+import HeroImg from '../../../assets/hero.png';
 
 export default function Hero() {
+
+  // Check user's logged in status
+  const { isAuthenticated } = useAuth();
+
   return (
     <div className='bg-gradient-to-r from-violet-950 to-violet-900 pt-20 dark:bg-violet-950'>
       <section className='container flex h-[750px] flex-col items-center justify-center md:h-[500px]'>
@@ -18,9 +23,17 @@ export default function Hero() {
               Get personalized, data-driven tips to improve your resume instantly. Use AI to highlight your strengths, fix weaknesses, and land interviews faster.
             </p>
             <div className="space-x-4 mt-4">
-              <Link to="/signin" className="btn-primary">
-                Get Started
-              </Link>
+              {
+                isAuthenticated ? (
+                  <Link to="/analyzer/upload-resume" className="btn-primary">
+                    Analyze Resume
+                  </Link>
+                ) : (
+                  <Link to="/signin" className="btn-primary">
+                    Get Started
+                  </Link>
+                )
+              }
             </div>
           </div>
           {/* Hero image container */}

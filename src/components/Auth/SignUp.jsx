@@ -36,14 +36,14 @@ export default function SignIn() {
         const { username, email, password, agreeTerms } = formData;
         const newErrors = {};
       
-        const usernameRegex = /^[a-zA-Z0-9]+$/;
+        const usernameRegex = /^[a-zA-Z0-9 ]{1,50}$/;
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         // Username Validation
         if (!username) {
             newErrors.username = "Username is required.";
-        } else if (!usernameRegex.test(username)) {
-            newErrors.username = "Username must only contain letters and numbers.";
+        } else if (!usernameRegex.test(username) || username.trim() === "") {
+            newErrors.username = "Username must be 1-50 characters, using letters, numbers, and spaces only. Cannot be only spaces.";
         }
 
         // Email Validation
@@ -75,7 +75,11 @@ export default function SignIn() {
             Swal.fire({
                 icon: 'warning',
                 text: 'You must agree to the Terms of Service and Privacy Policy.',
-                confirmButtonColor: '#8741eb',
+                customClass: {
+                    htmlContainer: 'custom-text',
+                    popup: 'custom-swal-bg',
+                    confirmButton: 'custom-confirm-button',
+                },
             });
             return;
         }

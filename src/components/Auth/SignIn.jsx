@@ -63,6 +63,10 @@ export default function SignIn() {
         }
     };
 
+    const handleForgotPassword = () => {
+        navigate("/forgot-password");
+    };
+
     return (
         <>
             <Helmet>
@@ -141,7 +145,10 @@ export default function SignIn() {
                             <div className="grid grid-cols-1 gap-1 sm:grid-cols-2 items-center px-5">
                                 {/* Forgot Password */}
                                 <div className="text-center whitespace-nowrap">
-                                    <button className="transition duration-200 px-2 py-4 cursor-pointer text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset">
+                                    <button
+                                        onClick={handleForgotPassword}
+                                        className="transition duration-200 px-2 py-4 cursor-pointer text-sm rounded-lg text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-200 focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 ring-inset"
+                                    >
                                         <LuLockKeyholeOpen className="w-4 h-4 inline-block align-text-top" />
                                         <span className="inline-block ml-1">Forgot Password</span>
                                     </button>
