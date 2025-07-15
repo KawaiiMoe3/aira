@@ -4,8 +4,6 @@ export default function SimpleBanner() {
   return (
     <div className='bg-gradient-to-r from-violet-950 to-violet-900'>
       <div
-        data-aos='fade-up'
-        data-aos-once="true"
         className='container py-8 md:py-12'
       >
         <div className="grid grid-cols-1 items-center md:grid-cols-3 gap-4 md:gap-8">

@@ -15,19 +15,13 @@ export default function About() {
                 <section className='container flex h-[750px] flex-col items-center justify-center md:h-[500px]'>
                     <div className='grid grid-cols-1 items-center gap-8 dark:text-white md:grid-cols-2'>
                         {/* Hero image container */}
-                        <div 
-                            data-aos="fade-left"
-                            data-aos-duration="400"
-                            data-aos-once="true"
+                        <div
                             className="w-full max-w-[400px] h-auto mx-auto"
                         >
                             <img src={a1} alt="Not Found" className='' />
                         </div>
                         {/* Hero text container */}
                         <div
-                            data-aos="fade-right"
-                            data-aos-duration="400"
-                            data-aos-once="true"
                             className="flex flex-col items-center gap-4 text-center text-white md:items-start md:text-left "
                         >
                             <h1 className=" text-4xl font-bold">

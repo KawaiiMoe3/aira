@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import Swal from 'sweetalert2';
+
 import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
-import { FaCaretDown } from 'react-icons/fa';
+import { FaCaretDown, FaUserCircle } from 'react-icons/fa';
+import { FaRegCircleUser } from "react-icons/fa6";
+import { FiLogOut } from "react-icons/fi";
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi';
+import { LuSettings } from "react-icons/lu";
 import ResponsiveMenu from './ResponsiveMenu';
 import aira from '../../assets/aira.png';
 import n1 from '../../assets/Navbar/n1.jpg';
 import n2 from '../../assets/Navbar/n2.jpg';
+import guest from '../../assets/guest.png';
 
 export default function Navbar() {
+
+    const navigate = useNavigate();
+
+    // Dark mode switcher
     const [theme, setTheme] = useState(
         localStorage.getItem("theme") ? localStorage.getItem("theme") : "light",
     );
-
-    const [showMenu, setShowMenu] = useState(false);
-    
     const element = document.documentElement;
-    
-    const toggleMenu = () => {
-        setShowMenu(!showMenu);
-    };
-    
-    // Dark mode switcher
     useEffect(() => {
         if (theme === "dark") {
             element.classList.add("dark");
             localStorage.setItem("theme", "dark");
-            console.log("dark theme");
+            // console.log("dark theme");
         } else {
             element.classList.remove("dark");
             localStorage.setItem("theme", "light");
-            console.log("light theme");
+            // console.log("light theme");
         }
     }, [theme]);
 
+    // Responsive menu (mobile or small screen)
+    const [showMenu, setShowMenu] = useState(false);
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
     // Close menu automatically when screen is resized to desktop
     useEffect(() => {
         const handleResize = () => {
@@ -45,6 +52,49 @@ export default function Navbar() {
         window.addEventListener("resize", handleResize);
         return () => window.removeEventListener("resize", handleResize);
     }, []);
+    
+    // For Avatar with dropdown menu
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    // Close dropdown on outside click
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    // Logout button
+    const { isAuthenticated, user, logout } = useAuth();
+    const handleLogout = async () => {
+        const result = await Swal.fire({
+            title: 'Leaving so soon?',
+            text: 'Are you sure you want to sign out?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Sign Out',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true,
+            customClass: {
+                title: 'custom-title',
+                htmlContainer: 'custom-text',
+                popup: 'custom-swal-bg',
+                confirmButton: 'custom-confirm-button',
+                cancelButton: 'custom-cancel-button',
+            },
+        });
+
+        if(result.isConfirmed) {
+            await logout();
+            setIsOpen(false);
+            navigate('/');
+        }
+    };
 
     return (
         <div>
@@ -59,7 +109,7 @@ export default function Navbar() {
                     {/* Desktop menu section */}
                     <div className='hidden md:block'>
                         <ul className='flex items-center gap-4'>
-                            <li className="cursor pointer">
+                            <li className="cursor-pointer">
                                 <Link to="/">Home</Link>
                             </li>
                             <li className='group relative cursor-pointer'>
@@ -70,13 +120,13 @@ export default function Navbar() {
                                     </span>
                                 </span>
                                 {/* Dropdown section */}
-                                <div className='absolute -left-9 z-[99999] hidden w-[150px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-md p-2 text-white rounded-md group-hover:block'>
-                                    <ul className='space-y-3'>
-                                        <li className='p-2 hover:bg-violet-500'>
-                                            <Link to="/about">About AIRA</Link>
+                                <div className="absolute right-0 top-full z-50 hidden w-[150px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-lg p-3 text-white rounded-xl group-hover:block">
+                                    <ul className="space-y-2">
+                                        <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                            <Link to="/about" className="text-sm w-full">About AIRA</Link>
                                         </li>
-                                        <li className='p-2 hover:bg-violet-500'>
-                                            <Link to="/faqs">FAQs</Link>
+                                        <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                            <Link to="/faqs" className="text-sm w-full">FAQs</Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -144,13 +194,87 @@ export default function Navbar() {
                                     </div>
                                 </div>
                             </li>
+                            {isAuthenticated ? (
+                            <>
+                                <li className="cursor-pointer">
+                                    <Link to="/analyzer/upload-resume">Analyzer</Link>
+                                </li>
+                                <li className="cursor-pointer">
+                                    <Link to="/dashboard">Dashboard</Link>
+                                </li>
+                                <li>
+                                    <div className="flex items-center gap-4">
+                                        <div>
+                                            <div className="relative" ref={dropdownRef}>
+                                                {/* Avatar Trigger */}
+                                                <div
+                                                    onClick={() => setIsOpen((prev) => !prev)}
+                                                    className="flex items-center gap-1 cursor-pointer h-[72px] text-slate-300 hover:brightness-125 transition-all duration-200 px-2 py-1 rounded-md"
+                                                >
+                                                    <img
+                                                        src={user.avatar || guest}
+                                                        alt="User Avatar"
+                                                        className="w-8 h-8 rounded-full object-cover"
+                                                    />
+                                                    <span className='inline-block max-w-[12ch] overflow-hidden text-ellipsis whitespace-nowrap'>
+                                                        {user.username}
+                                                    </span>
+                                                    <FaCaretDown
+                                                        className={`w-4 h-4 text-slate-300 transition-transform duration-200 ${
+                                                            isOpen ? "rotate-180" : ""
+                                                        }`}
+                                                    />
+                                                </div>
+                                    
+                                                {/* Dropdown */}
+                                                {isOpen && (
+                                                    <div className="absolute top-full right-0 z-50 w-[250px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-lg p-3 text-white rounded-xl">
+                                                        <ul className="space-y-2">
+                                                            {/* Email */}
+                                                            <li className="flex items-center gap-2 p-2 rounded-md text-white/70 transition">
+                                                                <FaRegCircleUser className="w-5 h-5" />
+                                                                <span className="text-sm truncate">{user.email}</span>
+                                                            </li>
+                                                            <Link to="/profile">
+                                                                <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                                                    <FaUserCircle className="w-5 h-5" />
+                                                                    <span className="text-sm">Profile</span>
+                                                                </li>
+                                                            </Link>
+                                                            <Link to="/account">
+                                                                <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                                                    <LuSettings className="w-5 h-5" />
+                                                                    <span className="text-sm">Account</span>
+                                                                </li>
+                                                            </Link>
+                                                            <hr className="border-violet-400 my-2" />
+                                    
+                                                            <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                                                <button
+                                                                    onClick={handleLogout}
+                                                                    className="text-sm text-left w-full flex gap-2"
+                                                                >
+                                                                    <FiLogOut className="w-5 h-5" />
+                                                                    Logout
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </>
+                            ) : (
                             <li>
                                 <div className="flex items-center gap-4">
                                     <div>
-                                        <button className='btn-primary'>Sign In</button>
+                                        <Link to="/signin" className="btn-primary">Sign In</Link>
                                     </div>
                                 </div>
                             </li>
+                            )}
                             {/* Light and dark mode switcher */}
                             {
                                 theme === "dark" ? (
