@@ -228,7 +228,7 @@ export default function Navbar() {
                                     
                                                 {/* Dropdown */}
                                                 {isOpen && (
-                                                    <div className="absolute top-full right-0 z-50 w-[220px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-lg p-3 text-white rounded-xl">
+                                                    <div className="absolute top-full right-0 z-50 w-[250px] bg-gradient-to-r from-[#8741eb] to-[#5b4be7] shadow-lg p-3 text-white rounded-xl">
                                                         <ul className="space-y-2">
                                                             {/* Email */}
                                                             <li className="flex items-center gap-2 p-2 rounded-md text-white/70 transition">
