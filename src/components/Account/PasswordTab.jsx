@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 export default function PasswordTab() {
 
@@ -56,7 +57,7 @@ export default function PasswordTab() {
             setLoading(true);
         
             const res = await axios.post(
-                "http://localhost:8000/api/user/change-password/",
+                `${API_BASE_URL}user/change-password/`,
                 {
                     current_password: currentPassword,
                     new_password: password,

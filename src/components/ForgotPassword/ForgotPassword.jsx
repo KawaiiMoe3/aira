@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FaArrowLeft } from "react-icons/fa";
 import aira from "../../assets/aira.png";
+import { API_BASE_URL } from "../../utils/ViteApiBaseUrl";
 
 export default function ForgotPassword() {
 
@@ -38,7 +39,7 @@ export default function ForgotPassword() {
         }
         
         try {
-            const res = await axios.post("http://localhost:8000/api/password-reset/", { email });
+            const res = await axios.post(`${API_BASE_URL}password-reset/`, { email });
             setMessage(res.data.message);
             setShowSuccess(true);
             setEmail("");

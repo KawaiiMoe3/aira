@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { API_BASE_URL } from '../utils/ViteApiBaseUrl';
 
 // Create the context
 const AuthContext = createContext();
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get('http://localhost:8000/api/user/');
+      const res = await axios.get(`${API_BASE_URL}user/`);
       if (res.data.isAuthenticated) {
         setIsAuthenticated(true);
         setUser(res.data);
@@ -35,12 +36,12 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       // Get CSRF token
-      await axios.get('http://localhost:8000/api/csrf/');
+      await axios.get(`${API_BASE_URL}csrf/`);
       // Get it from cookies
       const csrfToken = Cookies.get('csrftoken');
       
       await axios.post(
-        'http://localhost:8000/api/logout/',
+        `${API_BASE_URL}logout/`,
         {},
         {
           headers: {

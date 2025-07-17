@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 export default function SignIn() {
 
@@ -32,12 +33,12 @@ export default function SignIn() {
             setLoading(true);
 
             // Get CSRF token
-            await axios.get('http://localhost:8000/api/csrf/');
+            await axios.get(`${API_BASE_URL}csrf/`);
             // Get it from cookies
             const csrfToken = Cookies.get('csrftoken');
             // Send CSRF token in headers during Sign in
             const response = await axios.post(
-                'http://localhost:8000/api/signin/',
+                `${API_BASE_URL}signin/`,
                 { email, password },
                 {
                     headers: {

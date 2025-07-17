@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaArrowLeft, FaArrowUp } from "react-icons/fa";
 import aira from "../../assets/aira.png";
 import { Helmet } from 'react-helmet';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 export default function SignIn() {
 
@@ -94,7 +95,7 @@ export default function SignIn() {
       
         // Submit the form
         try {
-            const response = await axios.post("http://localhost:8000/api/signup/", {
+            const response = await axios.post(`${API_BASE_URL}signup/`, {
                 username,
                 email,
                 password,

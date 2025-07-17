@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { FaRegEdit } from 'react-icons/fa';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 export default function GeneralTab() {
 
@@ -47,13 +48,13 @@ export default function GeneralTab() {
     
         try {
             // Get CSRF token
-            await axios.get('http://localhost:8000/api/csrf/');
+            await axios.get(`${API_BASE_URL}csrf/`);
             // Get it from cookies
             const csrfToken = Cookies.get('csrftoken');
 
             // Submit the update
             const response = await axios.patch(
-                'http://localhost:8000/api/user/update/',
+                `${API_BASE_URL}user/update/`,
                 {
                     username: formData.username,
                     email: formData.email
