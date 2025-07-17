@@ -255,7 +255,7 @@ export default function Navbar() {
                                                                     className="text-sm text-left w-full flex gap-2"
                                                                 >
                                                                     <FiLogOut className="w-5 h-5" />
-                                                                    Logout
+                                                                    Sign out
                                                                 </button>
                                                             </li>
                                                         </ul>

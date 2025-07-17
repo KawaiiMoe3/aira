@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
 import aira from "../../assets/aira.png";
 import ok from "../../assets/ok.png";
+import { API_BASE_URL } from "../../utils/ViteApiBaseUrl";
 
 export default function ResetPassword() {
     const [password, setPassword] = useState("");
@@ -83,7 +84,7 @@ export default function ResetPassword() {
         setLoading(true);
 
         try {
-            const res = await axios.post("http://localhost:8000/api/password-reset-confirm/", {
+            const res = await axios.post(`${API_BASE_URL}password-reset-confirm/`, {
                 uid,
                 token,
                 password,
