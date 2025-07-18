@@ -35,10 +35,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      // Get CSRF token
-      await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
-      // Get it from cookies
-      const csrfToken = Cookies.get('csrftoken');
+      // Get CSRF from response instead of Cookies
+      const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, { withCredentials: true });
+      const csrfToken = csrfResponse.data.csrfToken;
+
       console.log('Sending logout with CSRF:', csrfToken);
       
       await axios.post(
