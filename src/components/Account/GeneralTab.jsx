@@ -48,7 +48,7 @@ export default function GeneralTab() {
     
         try {
             // Get CSRF token
-            await axios.get(`${API_BASE_URL}csrf/`);
+            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
             // Get it from cookies
             const csrfToken = Cookies.get('csrftoken');
 
