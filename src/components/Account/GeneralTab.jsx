@@ -47,10 +47,11 @@ export default function GeneralTab() {
         e.preventDefault();
     
         try {
-            // Get CSRF token
-            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
-            // Get it from cookies
-            const csrfToken = Cookies.get('csrftoken');
+            // Get CSRF from response instead of Cookies
+            const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, { withCredentials: true });
+            const csrfToken = csrfResponse.data.csrfToken;
+
+            console.log('CSRF token for update user info:', csrfToken);
 
             // Submit the update
             const response = await axios.patch(
