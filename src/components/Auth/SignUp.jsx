@@ -6,6 +6,7 @@ import { FaArrowLeft, FaArrowUp } from "react-icons/fa";
 import aira from "../../assets/aira.png";
 import { Helmet } from 'react-helmet';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import Cookies from 'js-cookie';
 
 export default function SignIn() {
 
@@ -95,11 +96,24 @@ export default function SignIn() {
       
         // Submit the form
         try {
-            const response = await axios.post(`${API_BASE_URL}signup/`, {
-                username,
-                email,
-                password,
-            });
+            // Get CSRF token
+            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
+            // Get it from cookies
+            const csrfToken = Cookies.get('csrftoken');
+            
+            const response = await axios.post(
+                `${API_BASE_URL}signup/`, {
+                    username,
+                    email,
+                    password,
+                },
+                {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                    withCredentials: true,
+                }
+            );
       
             if (response.status === 201) {
                 // Redirect or show success message
