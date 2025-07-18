@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}user/`);
+      const res = await axios.get(`${API_BASE_URL}user/`, {withCredentials: true});
       if (res.data.isAuthenticated) {
         setIsAuthenticated(true);
         setUser(res.data);

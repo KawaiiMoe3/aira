@@ -33,7 +33,7 @@ export default function SignIn() {
             setLoading(true);
 
             // Get CSRF token
-            await axios.get(`${API_BASE_URL}csrf/`);
+            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
             // Get it from cookies
             const csrfToken = Cookies.get('csrftoken');
             // Send CSRF token in headers during Sign in
@@ -44,6 +44,7 @@ export default function SignIn() {
                     headers: {
                         'X-CSRFToken': csrfToken,
                     },
+                    withCredentials: true,
                 }
             );
     
