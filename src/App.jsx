@@ -17,6 +17,15 @@ import Account from './components/Account/Account';
 import GeneralTab from './components/Account/GeneralTab';
 import PasswordTab from './components/Account/PasswordTab';
 import Profile from './components/Profile/Profile';
+import ProfileInfoTab from './components/Profile/EditProfileTabs/ProfileInfoTab';
+import SummaryTab from './components/Profile/EditProfileTabs/SummaryTab';
+import EditProfile from './components/Profile/EditProfileTabs/EditProfile';
+import LanguagesTab from './components/Profile/EditProfileTabs/LanguagesTab';
+import SkillsTab from './components/Profile/EditProfileTabs/SkillsTab';
+import EducationTab from './components/Profile/EditProfileTabs/EducationTab';
+import ProfessionalRab from './components/Profile/EditProfileTabs/ProfessionalTab';
+import ProjectsTab from './components/Profile/EditProfileTabs/ProjectsTab';
+import CertificationsTab from './components/Profile/EditProfileTabs/CertificationsTab';
 
 export default function App() {
   
@@ -41,7 +50,20 @@ export default function App() {
             <Route path="password" element={<PasswordTab />} />
           </Route>
 
+          {/* Profile nested routes */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/edit-profile" element={<EditProfile />} >
+            <Route index element={<Navigate to="profile-info" />} />
+            <Route path="profile-info" element={<ProfileInfoTab />} />
+            <Route path="summary" element={<SummaryTab />} />
+            <Route path="languages" element={<LanguagesTab />} />
+            <Route path="skills" element={<SkillsTab />} />
+            <Route path="education" element={<EducationTab />} />
+            <Route path="professional" element={<ProfessionalRab />} />
+            <Route path="projects" element={<ProjectsTab />} />
+            <Route path="certifications" element={<CertificationsTab />} />
+          </Route>
+
           <Route path="/analyzer/upload-resume" element={<UploadResume />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>

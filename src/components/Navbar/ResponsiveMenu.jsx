@@ -96,7 +96,7 @@ export default function ResponsiveMenu({ showMenu }) {
                         <li>
                             <button
                                 onClick={() => toggleDropdown("about")}
-                                className="inline-flex items-center gap-1 mb-2"
+                                className="inline-flex items-center gap-1"
                             >
                                 <IoInformationCircleOutline className='w-5 h-5' />
                                 About
@@ -129,7 +129,7 @@ export default function ResponsiveMenu({ showMenu }) {
                         <li>
                             <button
                                 onClick={() => toggleDropdown("resources")}
-                                className="inline-flex items-center gap-1 mb-2"
+                                className="inline-flex items-center gap-1"
                             >
                                 <RiMenuSearchLine className='w-5 h-5' />
                                 Resources
