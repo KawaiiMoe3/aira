@@ -85,7 +85,7 @@ export default function CertificationsTab() {
                 </div>
             ))}
 
-                <div className="flex justify-between">
+                <div className="flex items-center gap-2">
                     <button
                         type="button"
                         onClick={addCertification}
