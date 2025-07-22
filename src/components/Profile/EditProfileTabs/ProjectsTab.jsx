@@ -1,6 +1,12 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { API_BASE_URL } from '../../../utils/ViteApiBaseUrl';
 
 export default function ProjectsTab() {
+
+    const [message, setMessage] = useState('');
+    const [errors, setErrors] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [projects, setProjects] = useState([
         {
@@ -11,6 +17,32 @@ export default function ProjectsTab() {
             github_link: '',
         },
     ]);
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}edit-profile/projects/`, { withCredentials: true });
+                const data = response.data.projects || [];
+    
+                const formatted = data.map(proj => ({
+                    title: proj.title || '',
+                    description: proj.description || '',
+                    technologies: proj.technologies || '',
+                    live_link: proj.live_link || '',
+                    github_link: proj.github_link || '',
+                }));
+    
+                setProjects(formatted.length > 0 ? formatted : [{
+                    title: '', description: '', technologies: '', live_link: '', github_link: ''
+                }]);
+            } catch (error) {
+                console.error("Failed to load projects", error);
+                setErrors("Failed to load projects.");
+            }
+        };
+    
+        fetchProjects();
+    }, []);    
     
     const handleChange = (index, e) => {
         const updated = [...projects];
@@ -37,16 +69,82 @@ export default function ProjectsTab() {
         setProjects(updated);
     };
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submitted projects:', projects);
-        // You can use Axios or fetch to send this data to the Django backend
+        setErrors('');
+        setMessage('');
+        setLoading(true);
+
+        // Ensure required fields are filled
+        for (const proj of projects) {
+            if (!proj.title || !proj.description || !proj.technologies) {
+                setErrors("Please fill in all required fields (title, description, technologies) or remove empty projects.");
+                setLoading(false);
+                return;
+            }
+        }
+
+        try {
+            // Get CSRF token
+            const csrfRes = await axios.get(`${API_BASE_URL}csrf/`, { withCredentials: true });
+            const csrfToken = csrfRes.data.csrfToken;
+
+            const response = await axios.post(
+                `${API_BASE_URL}edit-profile/projects/`,
+                { projects },
+                {
+                    withCredentials: true,
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+            console.log('Submitted projects:', projects);
+            setMessage(response.data.message || "Projects updated successfully.");
+            setTimeout(() => setMessage(''), 3000);
+        } catch (error) {
+            console.error("Failed to save projects:", error);
+            setErrors("Failed to save projects.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
         <div>
-            <div className='flex items-center justify-between'>
+            {/* Toast */}
+            {message && (
+                <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className="bg-green-500 text-white px-4 py-2 rounded shadow-md text-sm w-[300px] text-center">
+                        {message}
+                    </div>
+                </div>
+            )}
+
+            <div className=''>
                 <h3 className="text-xl font-semibold mb-4 dark:text-white">Your Projects</h3>
+
+                {/* Alert */}
+                {errors && (
+                <div
+                    className="w-full flex justify-between bg-red-100 border border-red-400 text-red-700 px-4 py-3 mt-2 mb-2 rounded"
+                    role="alert"
+                >
+                    <span className="block sm:inline pl-2 text-sm">{errors}</span>
+                    <button onClick={() => setErrors(null)}>
+                        <svg
+                            className="fill-current h-6 w-6"
+                            role="button"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                        >
+                            <title>Close</title>
+                            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                        </svg>
+                    </button>
+                </div>
+                )}
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
             {projects.map((project, index) => (
@@ -126,21 +224,30 @@ export default function ProjectsTab() {
                 </div>
             ))}
 
-            <div className="flex items-center gap-2">
-                <button
-                    type="button"
-                    onClick={addProject}
-                    className="btn-outline-darkmode"
-                >
-                    Add Project
-                </button>
-                <button
-                    type="submit"
-                    className="btn-primary"
-                >
-                    Save
-                </button>
-            </div>
+                <div className="flex items-center gap-2">
+                    <button
+                        type="button"
+                        onClick={addProject}
+                        className="btn-outline-darkmode"
+                    >
+                        Add Project
+                    </button>
+                    <button
+                        type="submit"
+                        className="btn-primary"
+                    >
+                        {loading ? (
+                            <div className="flex items-center justify-center">
+                                <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                                </svg>
+                            </div>
+                        ) : (
+                            "Save"
+                        )}
+                    </button>
+                </div>
             </form>
         </div>
     )
