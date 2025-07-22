@@ -39,9 +39,7 @@ export default function EducationTab() {
                     still_studying: edu.is_still_studying || false,
                 }));
 
-                setEducations(formatted.length > 0 ? formatted : [{
-                    institution: '', degree: '', field_of_study: '', start_date: '', end_date: '', cgpa: '', still_studying: false
-                }]);
+                setEducations(formatted);
             } catch (error) {
                 console.error("Failed to load educations", error);
                 setErrors("Failed to load educations.");
@@ -68,7 +66,7 @@ export default function EducationTab() {
         const newEducations = [...educations];
         newEducations.splice(index, 1);
         setEducations(newEducations);
-    };
+    };    
     
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,12 +74,14 @@ export default function EducationTab() {
         setMessage('');
         setLoading(true);
 
-        // Validation of fields
-        for (let edu of educations) {
-            if (!edu.institution.trim() || !edu.start_date) {
-                setErrors("Please fill in all required fields or remove empty entries.");
-                setLoading(false);
-                return;
+        // Skip validation if all fields are removed
+        if (educations.length > 0) {
+            for (let edu of educations) {
+                if (!edu.institution.trim() || !edu.start_date) {
+                    setErrors("Please fill in all required fields or remove empty entries.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -154,6 +154,12 @@ export default function EducationTab() {
                 )}
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
+                {educations.length === 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                        No educations added yet.
+                    </p>
+                )}
+
                 {educations.map((edu, index) => (
                 <div key={index} className="border p-4 rounded-lg bg-white dark:dark:bg-gray-800 shadow">
                     <h3 className="font-semibold text-lg mb-4 dark:text-white">Education {index + 1}</h3>
@@ -167,6 +173,7 @@ export default function EducationTab() {
                                 onChange={(e) => handleChange(index, e)}
                                 required
                                 className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                placeholder='University of Malaya'
                             />
                         </div>
                         <div>
@@ -177,6 +184,7 @@ export default function EducationTab() {
                                 value={edu.degree}
                                 onChange={(e) => handleChange(index, e)}
                                 className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                placeholder='Diploma/Bachelor Degree/Master'
                             />
                         </div>
                         <div>
@@ -187,6 +195,7 @@ export default function EducationTab() {
                                 value={edu.field_of_study}
                                 onChange={(e) => handleChange(index, e)}
                                 className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                placeholder='Software Engineer'
                             />
                         </div>
                         <div>
@@ -197,6 +206,7 @@ export default function EducationTab() {
                                 value={edu.cgpa}
                                 onChange={(e) => handleChange(index, e)}
                                 className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                placeholder='4.00'
                             />
                         </div>
                         <div>
@@ -251,16 +261,13 @@ export default function EducationTab() {
                         </label>
                         <label className="cursor-pointer ml-2 text-sm text-gray-700 dark:text-white" htmlFor={`still_studying_${ index + 1 }`}>Still studying?</label>
                     </div>
-
-                    {educations.length > 1 && (
-                        <button
-                            type="button"
-                            onClick={() => removeEducation(index)}
-                            className="text-red-600 mt-4 hover:underline"
-                        >
-                            Remove
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={() => removeEducation(index)}
+                        className="text-red-600 mt-4 hover:underline"
+                    >
+                        Remove
+                    </button>
                 </div>
                 ))}
 

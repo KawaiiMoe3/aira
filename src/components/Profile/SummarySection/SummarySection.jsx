@@ -1,6 +1,10 @@
 import React from 'react'
+import { useProfile } from '../../../contexts/ProfileContext'
 
 export default function SummarySection() {
+
+    const { info } = useProfile();
+
     return (
         <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
@@ -10,7 +14,9 @@ export default function SummarySection() {
                 Summary
             </h2>
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
-            <p className="text-gray-600">I'm a dedicated Frontend Developer with expertise in React, Remix, and TypeScript, focused on crafting scalable, high-performance web applications. I specialize in creating seamless user experiences through clean, efficient, and responsive UI design. With a strong foundation in modern web technologies, I enjoy solving complex problems and building interactive digital solutions. I'm always eager to learn, innovate, and contribute to projects that make an impact.</p>
+            <p className={info?.summary ? "text-gray-600" : "text-sm text-gray-500 italic"}>
+                {info?.summary || "Let people know about you."}
+            </p>
         </div>
     )
 }

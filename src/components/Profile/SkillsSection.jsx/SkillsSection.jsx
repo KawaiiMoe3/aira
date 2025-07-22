@@ -1,15 +1,9 @@
+import { useProfile } from '../../../contexts/ProfileContext';
 import SkillItem from './SkillItem';
 
 export default function SkillsSection() {
-    const skills = [
-        "React",
-        "JavaScript",
-        "Tailwind CSS",
-        "HTML",
-        "CSS",
-        "Git",
-        "REST APIs",
-    ];
+
+    const { skills } = useProfile();
 
     return (
         <div className="mb-8">
@@ -22,9 +16,13 @@ export default function SkillsSection() {
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
 
             <div className="space-y-3">
-                {skills.map((skill, index) => (
-                    <SkillItem key={index} name={skill} />
-                ))}
+            {skills.length > 0 ? (
+                skills.map((skill, index) => (
+                    <SkillItem key={index} skill={skill.name} />
+                ))
+            ) : (
+                <p className="text-sm text-gray-500 italic">You haven't added any skills yet.</p>
+            )}
             </div>
         </div>
     );

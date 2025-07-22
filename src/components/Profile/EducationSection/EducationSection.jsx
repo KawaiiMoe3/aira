@@ -1,13 +1,10 @@
+import { useProfile } from "../../../contexts/ProfileContext";
 import EducationItem from "./EducationItem";
+import { formatDateRange } from "../../../utils/dateUtils";
 
 export default function EducationSection() {
-    const educationList = [
-        {
-            date: "April 2019 - May 2021",
-            institution: "Punjab Group Of Colleges",
-            cgpa: 3.95
-        },
-    ];
+
+    const { educations } = useProfile();
 
     return (
         <div className="mb-8">
@@ -21,9 +18,20 @@ export default function EducationSection() {
             </h2>
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
             <div className="space-y-4">
-                {educationList.map((edu, index) => (
-                    <EducationItem key={index} date={edu.date} institution={edu.institution} cgpa={edu.cgpa} />
-                ))}
+            {educations.length > 0 ? (
+                educations.map((edu, index) => (
+                    <EducationItem 
+                        key={index} 
+                        date={formatDateRange(edu.start_date, edu.end_date)}
+                        institution={edu.institution}
+                        degree={edu.degree}
+                        field_of_study={edu.field_of_study}
+                        cgpa={edu.cgpa}
+                    />
+                ))
+            ) : (
+                <p className="text-sm text-gray-500 italic">No education added yet.</p>
+            )}
             </div>
         </div>
     );

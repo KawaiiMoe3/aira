@@ -1,11 +1,9 @@
+import { useProfile } from '../../../contexts/ProfileContext';
 import LanguageItem from './LanguageItem';
 
 export default function LanguagesSection() {
-    const languages = [
-        { language: "English", level: "Fluent" },
-        { language: "Malay", level: "Native" },
-        { language: "Chinese", level: "Conversational" },
-    ];
+    
+    const { languages } = useProfile();
 
     return (
         <div className="mb-8">
@@ -29,9 +27,13 @@ export default function LanguagesSection() {
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
 
             <div className="space-y-3">
-                {languages.map((item, index) => (
-                    <LanguageItem key={index} language={item.language} level={item.level} />
-                ))}
+            {languages.length > 0 ? (
+                languages.map((language, index) => (
+                    <LanguageItem key={index} language={language.name} proficiency={language.proficiency} />
+                ))
+            ) : (
+                <p className="text-sm text-gray-500 italic">You haven't added any languages yet.</p>
+            )}
             </div>
         </div>
     );

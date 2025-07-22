@@ -7,28 +7,20 @@ export default function LanguagesTab() {
     const [message, setMessage] = useState('');
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
-
-    const [languages, setLanguages] = useState([
-        { name: '', proficiency: '' },
-    ]);
+    const [languages, setLanguages] = useState([]);
 
     // Load initial if languages is existing
     useEffect(() => {
         const fetchLanguages = async () => {
             try {
                 const res = await axios.get(`${API_BASE_URL}edit-profile/languages/`, { withCredentials: true });
-                const langs = res.data.languages;
-                if (Array.isArray(langs) && langs.length > 0) {
-                    setLanguages(langs);
-                } else {
-                    setLanguages([{ name: '', proficiency: '' }]);
-                }
+                const langs = res.data.languages || [];
+                setLanguages(langs);
             } catch (err) {
                 console.error("Failed to load languages:", err);
                 setErrors("Failed to load languages.");
             }
         };
-    
         fetchLanguages();
     }, []);         
     
@@ -43,7 +35,8 @@ export default function LanguagesTab() {
     };
     
     const handleRemove = (index) => {
-        const updated = languages.filter((_, i) => i !== index);
+        const updated = [...languages];
+        updated.splice(index, 1);
         setLanguages(updated);
     };
     
@@ -53,20 +46,24 @@ export default function LanguagesTab() {
         setMessage('');
         setErrors('');
 
-        // Validation: If name is not empty, proficiency must also not be empty
-        for (let lang of languages) {
-            if (lang.name.trim() && !lang.proficiency.trim()) {
-                setErrors(`Proficiency is required for language "${lang.name.trim()}"`);
-                setLoading(false);
-                return;
-            } else if (!lang.name.trim() && lang.proficiency.trim()) {
-                setErrors("Language is required.");
-                setLoading(false);
-                return
-            } else if (!lang.name.trim() && !lang.proficiency.trim()) {
-                setErrors("Remove the empty fields or both are required.");
-                setLoading(false);
-                return
+        // Filter out completely empty rows
+        const nonEmptyLanguages = languages.filter(
+            (lang) => lang.name.trim() || lang.proficiency.trim()
+        );
+
+        // Skip validation if all fields are removed
+        if (nonEmptyLanguages.length > 0) {
+            for (let lang of nonEmptyLanguages) {
+                if (lang.name.trim() && !lang.proficiency.trim()) {
+                    setErrors(`Proficiency is required for language "${lang.name.trim()}"`);
+                    setLoading(false);
+                    return;
+                }
+                if (!lang.name.trim() && lang.proficiency.trim()) {
+                    setErrors("Language name is required if proficiency is provided.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -88,6 +85,7 @@ export default function LanguagesTab() {
             );
             console.log("Submitted languages: ", languages);
             setMessage(res.data.message || "Languages saved successfully.");
+            setLanguages(nonEmptyLanguages);
             setTimeout(() => setMessage(''), 3000);
         } catch (err) {
             console.error("Failed to save languages:", err);
@@ -132,38 +130,45 @@ export default function LanguagesTab() {
                 </div>
                 )}
 
-                {languages.map((lang, index) => (
-                <div key={index} className="flex flex-col md:flex-row items-center gap-4">
-                <input
-                    type="text"
-                    name={`language_name_${index}`}
-                    placeholder="Language"
-                    value={lang.name}
-                    onChange={(e) => handleChange(index, 'name', e.target.value)}
-                    className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
-                />
-                <select
-                    name={`language_proficiency_${index}`}
-                    value={lang.proficiency}
-                    onChange={(e) => handleChange(index, 'proficiency', e.target.value)}
-                    className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
-                >
-                    <option value="">Select Proficiency</option>
-                    <option value="Fluent">Fluent</option>
-                    <option value="Moderate">Moderate</option>
-                    <option value="Basic">Basic</option>
-                </select>
-                {languages.length > 1 && (
-                    <button
-                        type="button"
-                        onClick={() => handleRemove(index)}
-                        className="text-red-500 hover:underline"
-                    >
-                        Remove
-                    </button>
+                {/* Fallback if no entries */}
+                {languages.length === 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                        No languages added yet.
+                    </p>
                 )}
-                </div>
+
+                {/* Language Input Fields */}
+                {languages.map((lang, index) => (
+                    <div key={index} className="flex items-center mb-2 gap-4">
+                        <input
+                            type="text"
+                            placeholder="Language"
+                            value={lang.name}
+                            onChange={(e) => handleChange(index, 'name', e.target.value)}
+                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            required
+                        />
+                        <select
+                            value={lang.proficiency}
+                            onChange={(e) => handleChange(index, 'proficiency', e.target.value)}
+                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            required
+                        >
+                            <option value="">Select Proficiency</option>
+                            <option value="Fluent">Fluent</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Basic">Basic</option>
+                        </select>
+                        <button
+                            type="button"
+                            onClick={() => handleRemove(index)}
+                            className="text-red-500 hover:underline"
+                        >
+                            Remove
+                        </button>
+                    </div>
                 ))}
+
                 <div className="flex items-center gap-2">
                     <button
                         type="button"
@@ -177,12 +182,10 @@ export default function LanguagesTab() {
                         className="btn-primary"
                     >
                         {loading ? (
-                        <div className="flex items-center justify-center">
-                            <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24">
+                            <svg className="animate-spin h-5 w-5 text-white mx-auto" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
                             </svg>
-                        </div>
                         ) : (
                             "Save"
                         )}

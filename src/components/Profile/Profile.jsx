@@ -22,13 +22,12 @@ import { Link } from 'react-router-dom';
 export default function Profile() {
 
     const { user } = useAuth();
-    if (!user) return null; // Do not render until user exists
 
     // Print only specific area (Profile)
-    const printRef = useRef(null);   
+    const printRef = useRef(null);
     const handlePrint = useReactToPrint({
         contentRef: printRef,
-        documentTitle: `${user.full_name || user.username}'s Profile`,
+        documentTitle: `${user?.username || 'User'}'s Profile`,
         onAfterPrint: () => console.log('Profile Downloaded.'),
     });
     
@@ -62,7 +61,7 @@ export default function Profile() {
                         {/* Profile */}
                         <div className="bg-white rounded-2xl shadow-xl overflow-hidden" ref={printRef}>
                             {/* Header Section */}
-                            <Header user={user} />
+                            <Header />
                             
                             {/* Main Content */}
                             <div className="p-6 md:p-10">

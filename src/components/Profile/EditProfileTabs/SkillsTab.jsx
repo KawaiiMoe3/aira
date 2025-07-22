@@ -8,7 +8,7 @@ export default function SkillsTab() {
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [skills, setSkills] = useState([{ name: '' }]);
+    const [skills, setSkills] = useState([]);
 
     useEffect(() => {
         const fetchSkills = async () => {
@@ -16,7 +16,8 @@ export default function SkillsTab() {
                 const res = await axios.get(`${API_BASE_URL}edit-profile/skills/`, {
                     withCredentials: true,
                 });
-                setSkills(res.data.skills.length > 0 ? res.data.skills : [{ name: '' }]);
+                const fetchedSkills = res.data.skills;
+                setSkills(Array.isArray(fetchedSkills) && fetchedSkills.length > 0 ? fetchedSkills : []);
             } catch (err) {
                 console.error("Failed to fetch skills:", err);
                 setErrors("Failed to fetch skills.");
@@ -48,12 +49,17 @@ export default function SkillsTab() {
         setMessage('');
         setLoading(true);
 
-        // Basic validation
-        for (let skill of skills) {
-            if (!skill.name.trim()) {
-                setErrors("Please fill in all skill names or remove empty ones.");
-                setLoading(false);
-                return;
+        // Filter out completely empty rows
+        const nonEmptySkills = skills.filter(skill => skill.name.trim());
+
+        // Skip validation if all are empty
+        if (nonEmptySkills.length > 0) {
+            for (let skill of nonEmptySkills) {
+                if (!skill.name.trim()) {
+                    setErrors("Please fill in all skill names or remove empty ones.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -75,6 +81,7 @@ export default function SkillsTab() {
             );
             console.log('Submitting skills:', skills);
             setMessage(res.data.message || "Skills saved.");
+            setSkills(nonEmptySkills);
             setTimeout(() => setMessage(''), 3000);
         } catch (err) {
             console.error("Failed to save skills:", err);
@@ -119,28 +126,27 @@ export default function SkillsTab() {
                 </div>
                 )}
 
+                {skills.length === 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                        No skills added yet.
+                    </p>
+                )}
+
                 {skills.map((skill, index) => (
                     <div key={index} className="flex items-center mb-2">
                         <input
                             type="text"
-                            name={`skill_${index}`}
-                            placeholder="Skill name"
                             value={skill.name}
                             onChange={(e) => handleChange(index, e)}
+                            placeholder="Skill name"
                             className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            required
                         />
-                        {skills.length > 1 && (
-                        <button
-                            type="button"
-                            onClick={() => removeSkill(index)}
-                            className="ml-2 text-red-600"
-                            >
+                        <button type="button" onClick={() => removeSkill(index)} className="ml-2 text-red-600">
                             Remove
                         </button>
-                        )}
                     </div>
                 ))}
-
                 <div className="flex gap-2 mt-3">
                     <button
                         type="button"

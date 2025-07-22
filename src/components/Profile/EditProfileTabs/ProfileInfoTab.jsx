@@ -142,17 +142,18 @@ export default function ProfileInfoTab() {
             )}
 
             <form onSubmit={handleSubmit}>
-                {[
-                    { label: "Full Name", name: "full_name", type: "text" },
-                    { label: "Phone", name: "phone", type: "text" },
-                    { label: "Position", name: "position", type: "text" },
-                    { label: "Location", name: "location", type: "text" },
-                    { label: "LinkedIn", name: "linkedin", type: "url" },
-                    { label: "GitHub", name: "github", type: "url" },
-                    { label: "Portfolio", name: "portfolio", type: "url" },
-                    { label: "Other Link", name: "other_link", type: "url" },
-                ].map(({ label, name, type }) => (
-                    <div key={name} className="mb-4">
+            {[
+                { label: "Full Name", name: "full_name", type: "text" },
+                { label: "Phone", name: "phone", type: "text" },
+                { label: "Position", name: "position", type: "text" },
+                { label: "Location", name: "location", type: "text" },
+                { label: "LinkedIn", name: "linkedin", type: "url" },
+                { label: "GitHub", name: "github", type: "url" },
+                { label: "Portfolio", name: "portfolio", type: "url" },
+                { label: "Other Link", name: "other_link", type: "url" },
+            ].map(({ label, name, type }, index, array) => (
+                <React.Fragment key={name}>
+                    <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 dark:text-white">{label}</label>
                         <input
                             type={type}
@@ -166,7 +167,14 @@ export default function ProfileInfoTab() {
                             <p className="text-red-500 text-sm mt-1">{errors[name]}</p>
                         )}
                     </div>
-                ))}
+
+                    {/* Insert "Contacts" title after "Position" */}
+                    {name === "position" && (
+                        <h3 className="text-xl font-semibold mb-4 dark:text-white">Contacts</h3>
+                    )}
+                </React.Fragment>
+            ))}
+
                 <button
                         type="submit"
                         className="mt-4 btn-primary"
