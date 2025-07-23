@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from './contexts/AuthContext';
+import { ProfileProvider } from './contexts/ProfileContext';
 
 import Home from './components/Home/Home';
 import GoToTopButton from './components/GoToTopButton/GoToTopButton';
@@ -17,6 +18,15 @@ import Account from './components/Account/Account';
 import GeneralTab from './components/Account/GeneralTab';
 import PasswordTab from './components/Account/PasswordTab';
 import Profile from './components/Profile/Profile';
+import ProfileInfoTab from './components/Profile/EditProfileTabs/ProfileInfoTab';
+import SummaryTab from './components/Profile/EditProfileTabs/SummaryTab';
+import EditProfile from './components/Profile/EditProfileTabs/EditProfile';
+import LanguagesTab from './components/Profile/EditProfileTabs/LanguagesTab';
+import SkillsTab from './components/Profile/EditProfileTabs/SkillsTab';
+import EducationTab from './components/Profile/EditProfileTabs/EducationTab';
+import ProfessionalRab from './components/Profile/EditProfileTabs/ProfessionalTab';
+import ProjectsTab from './components/Profile/EditProfileTabs/ProjectsTab';
+import CertificationsTab from './components/Profile/EditProfileTabs/CertificationsTab';
 
 export default function App() {
   
@@ -41,7 +51,34 @@ export default function App() {
             <Route path="password" element={<PasswordTab />} />
           </Route>
 
-          <Route path="/profile" element={<Profile />} />
+          {/* Profile nested routes */}
+          <Route 
+            path="/profile" 
+            element={
+              <ProfileProvider>
+                <Profile />
+              </ProfileProvider>
+            }
+          />
+          <Route 
+            path="/profile/edit-profile" 
+            element={
+              <ProfileProvider>
+                <EditProfile />
+              </ProfileProvider>
+            }
+          >
+            <Route index element={<Navigate to="profile-info" />} />
+            <Route path="profile-info" element={<ProfileInfoTab />} />
+            <Route path="summary" element={<SummaryTab />} />
+            <Route path="languages" element={<LanguagesTab />} />
+            <Route path="skills" element={<SkillsTab />} />
+            <Route path="education" element={<EducationTab />} />
+            <Route path="professional" element={<ProfessionalRab />} />
+            <Route path="projects" element={<ProjectsTab />} />
+            <Route path="certifications" element={<CertificationsTab />} />
+          </Route>
+
           <Route path="/analyzer/upload-resume" element={<UploadResume />} />
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>

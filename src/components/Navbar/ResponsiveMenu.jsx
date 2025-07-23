@@ -5,6 +5,10 @@ import Swal from 'sweetalert2';
 
 import { FaChevronDown, FaGithub } from "react-icons/fa";
 import guest from '../../assets/guest.png';
+import { IoHomeOutline, IoInformationCircleOutline } from "react-icons/io5";
+import { RiMenuSearchLine } from "react-icons/ri";
+import { TbDeviceAnalytics, TbLayoutDashboard } from "react-icons/tb";
+import { LuSettings } from "react-icons/lu";
 
 export default function ResponsiveMenu({ showMenu }) {
     // console.log("showMenu", showMenu);
@@ -67,9 +71,9 @@ export default function ResponsiveMenu({ showMenu }) {
                                     className="w-12 h-12 rounded-full object-cover"
                                 />
                                 <div>
-                                    <h1>{user.username}</h1>
+                                    <h1 className='font-bold'>{user.username}</h1>
                                     <h1 className="text-sm text-slate-500 dark:text-slate-400">
-                                        {user.position || "Add your position here"}
+                                        View profile
                                     </h1>
                                 </div>
                             </div>
@@ -82,8 +86,9 @@ export default function ResponsiveMenu({ showMenu }) {
                         <li>
                             <Link
                                 to="/"
-                                className='mb-2 inline-block'
+                                className='mb-2 inline-block flex items-center gap-1'
                             >
+                                <IoHomeOutline className="w-5 h-5" />
                                 Home
                             </Link>
                         </li>
@@ -91,8 +96,9 @@ export default function ResponsiveMenu({ showMenu }) {
                         <li>
                             <button
                                 onClick={() => toggleDropdown("about")}
-                                className="inline-flex items-center gap-2 mb-2"
+                                className="inline-flex items-center gap-1"
                             >
+                                <IoInformationCircleOutline className='w-5 h-5' />
                                 About
                                 <FaChevronDown
                                     className={`transform transition-transform duration-300 ${
@@ -123,8 +129,9 @@ export default function ResponsiveMenu({ showMenu }) {
                         <li>
                             <button
                                 onClick={() => toggleDropdown("resources")}
-                                className="inline-flex items-center gap-2 mb-2"
+                                className="inline-flex items-center gap-1"
                             >
+                                <RiMenuSearchLine className='w-5 h-5' />
                                 Resources
                                 <FaChevronDown
                                     className={`transform transition-transform duration-300 ${
@@ -174,26 +181,37 @@ export default function ResponsiveMenu({ showMenu }) {
                                     <li>
                                         <Link
                                             to="/analyzer/upload-resume"
-                                            className='mb-2 inline-block'
+                                            className='mb-2 inline-block flex items-center gap-1'
                                         >
+                                            <TbDeviceAnalytics className='w-5 h-5' />
                                             Analyzer
                                         </Link>
                                     </li>
                                     <li>
                                         <Link
                                             to="/dashboard"
-                                            className='mb-2 inline-block'
+                                            className='mb-2 inline-block flex items-center gap-1'
                                         >
+                                            <TbLayoutDashboard className='w-5 h-5' />
                                             Dashboard
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/account"
+                                            className='mb-2 inline-block flex items-center gap-1'
+                                        >
+                                            <LuSettings className="w-5 h-5" />
+                                            Settings
                                         </Link>
                                     </li>
                                     <li>
                                         <button
                                             type='button'
-                                            className='inline-block btn-primary'
+                                            className='inline-block btn-primary flex items-center gap-1'
                                             onClick={handleLogout}
                                         >
-                                            Logout
+                                            Sign out
                                         </button>
                                     </li>
                                 </>

@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../utils/ViteApiBaseUrl';
 
 // Create the context
@@ -9,7 +8,12 @@ const AuthContext = createContext();
 // Create a custom hook for easier access
 export const useAuth = () => useContext(AuthContext);
 
-// Provider component
+/**
+ * AuthContext is focused on user authentication
+ * 1. Sign in
+ * 2. Sign out
+ * 3. Session user
+ */ 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);

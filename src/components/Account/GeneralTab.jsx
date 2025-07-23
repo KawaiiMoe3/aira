@@ -111,7 +111,7 @@ export default function GeneralTab() {
                 <div className='flex items-center justify-between'>
                     <h3 className="text-xl font-semibold mb-4 dark:text-white">General Information</h3>
                     <button 
-                        className='btn-outline-darkmode flex items-center gap-2'
+                        className='btn-outline-darkmode flex items-center gap-1'
                         onClick={toggleEdit}
                     >
                         <FaRegEdit className="w-5 h-5" />
