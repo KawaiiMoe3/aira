@@ -11,7 +11,7 @@ export default function SkillsSection() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Skills
+                Skill
             </h2>
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
 

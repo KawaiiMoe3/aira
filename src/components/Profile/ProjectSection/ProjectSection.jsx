@@ -1,4 +1,10 @@
+import { useProfile } from "../../../contexts/ProfileContext";
+import ProjectItem from "./ProjectItem";
+
 export default function ProjectSection() {
+
+    const { projects } = useProfile();
+
     return (
         <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
@@ -17,15 +23,21 @@ export default function ProjectSection() {
     
             <div className="space-y-4">
                 {/* Project items */}
-                <div className="p-4 border-l-4 border-blue-600 bg-blue-50 rounded-r">
-                    <h3 className="text-lg font-semibold text-gray-800">AI Resume Analyzer</h3>
-                    <p className="text-sm text-gray-600">
-                        A web app built with React and Django that analyzes resumes using machine learning to provide feedback and suggest improvements.
-                    </p>
-                    <p className="text-sm text-gray-500 mt-1">
-                        <strong>Tech Stack:</strong> React, Django, TailwindCSS, MySQL
-                    </p>
-                </div>
+                {projects.length > 0 ? (
+                    projects.map((project, index) => (
+                        <ProjectItem 
+                            key={index}
+                            title={project.title}
+                            description={project.description}
+                            technologies={project.technologies}
+                            live_link={project.live_link}
+                            github_link={project.github_link}
+                        />
+                    ))
+                ) : (
+                    <p className="text-sm text-gray-500 italic">You haven't added any projects yet.</p>
+                )}
+                
             </div>
         </div>
     );

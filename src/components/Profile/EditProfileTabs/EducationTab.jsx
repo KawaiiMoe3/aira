@@ -8,17 +8,7 @@ export default function EducationTab() {
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [educations, setEducations] = useState([
-        { 
-            institution: '', 
-            degree: '', 
-            field_of_study: '', 
-            start_date: '', 
-            end_date: '', 
-            cgpa: '' ,
-            still_studying: false,
-        }
-    ]);
+    const [educations, setEducations] = useState([]);
 
     useEffect(() => {
         const fetchEducations = async () => {

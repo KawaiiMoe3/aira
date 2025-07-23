@@ -1,7 +1,12 @@
 import React from 'react'
 import ExperienceItem from './ExperienceItem'
+import { useProfile } from '../../../contexts/ProfileContext'
+import { formatDateRange } from '../../../utils/dateUtils';
 
 export default function ExperienceSection() {
+
+    const { experiences } = useProfile();
+
     return (
         <div className="mb-8">
             <h2 className="text-xl font-bold text-gray-800 mb-2 flex items-center">
@@ -11,27 +16,21 @@ export default function ExperienceSection() {
                 Professional Experience
             </h2>
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
-            
-            {/* Experience 1 */}
-            <ExperienceItem
-                company="Pakipreneurs"
-                role="Frontend Developer"
-                duration="January 2025 - Present"
-            />
 
-            {/* Experience 2 */}
-            <ExperienceItem
-                company="Urbanloop Tech"
-                role="Frontend Developer"
-                duration="November 2023 - December 2024"
-                contributions={[
-                    'Built and optimized web applications with React.js, Remix, and TypeScript to enhance performance',
-                    'Designed and implemented responsive UI components using Tailwind CSS for cross-device compatibility',
-                    'Collaborated with designers and backend developers to create intuitive user experiences',
-                    'Focused on performance optimization, accessibility, and best coding practices'
-                ]}
-                skills="React.js | Remix | TypeScript | JavaScript | Tailwind CSS | API Integrations | UI/UX Development | Performance Optimization"
-            />
+            {experiences.length > 0 ? (
+                experiences.map((experience, index) => (
+                    <ExperienceItem
+                        key={index}
+                        company={experience.company}
+                        role={experience.role}
+                        duration={formatDateRange(experience.start_date, experience.end_date)}
+                        contributions={experience.contributions}
+                        skills={experience.skills}
+                    />
+                ))
+            ) : (
+                <p className="text-sm text-gray-500 italic">You haven't added any professional exprience yet.</p>
+            )}
         </div>
     )
 }

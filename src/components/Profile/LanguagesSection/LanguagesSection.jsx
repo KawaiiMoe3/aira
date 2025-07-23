@@ -22,7 +22,7 @@ export default function LanguagesSection() {
                     d="M7 8h10M7 12h6m-6 8l-4-4H4a2 2 0 01-2-2V6a2 2 0 012-2h16a2 2 0 012 2v8a2 2 0 01-2 2H8l-1 1v3z"
                 />
             </svg>
-                Languages
+                Language
             </h2>
             <div className="w-16 h-1 bg-blue-600 mb-4"></div>
 

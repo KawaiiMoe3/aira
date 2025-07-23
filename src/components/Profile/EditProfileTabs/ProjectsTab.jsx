@@ -8,41 +8,36 @@ export default function ProjectsTab() {
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [projects, setProjects] = useState([
-        {
-            title: '',
-            description: '',
-            technologies: '',
-            live_link: '',
-            github_link: '',
-        },
-    ]);
+    const [projects, setProjects] = useState([]);
 
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}edit-profile/projects/`, { withCredentials: true });
-                const data = response.data.projects || [];
+                const res = await axios.get(`${API_BASE_URL}edit-profile/projects/`, { withCredentials: true });
+                const fetchedProjects = res.data.projects;
     
-                const formatted = data.map(proj => ({
-                    title: proj.title || '',
-                    description: proj.description || '',
-                    technologies: proj.technologies || '',
-                    live_link: proj.live_link || '',
-                    github_link: proj.github_link || '',
-                }));
-    
-                setProjects(formatted.length > 0 ? formatted : [{
-                    title: '', description: '', technologies: '', live_link: '', github_link: ''
-                }]);
-            } catch (error) {
-                console.error("Failed to load projects", error);
+                if (Array.isArray(fetchedProjects) && fetchedProjects.length > 0) {
+                    setProjects(
+                        fetchedProjects.map(p => ({
+                            title: p.title || '',
+                            description: p.description || '',
+                            technologies: p.technologies || '',
+                            live_link: p.live_link || '',
+                            github_link: p.github_link || '',
+                        }))
+                    );
+                } else {
+                    // Don't auto-add empty field after remove all fields
+                    setProjects([]);
+                }
+            } catch (err) {
+                console.error("Failed to fetch projects:", err);
                 setErrors("Failed to load projects.");
             }
         };
     
         fetchProjects();
-    }, []);    
+    }, []);     
     
     const handleChange = (index, e) => {
         const updated = [...projects];
@@ -75,12 +70,18 @@ export default function ProjectsTab() {
         setMessage('');
         setLoading(true);
 
+        const nonEmptyProjects = projects.filter(
+            p => p.title.trim() || p.description.trim() || p.technologies.trim() || p.live_link.trim() || p.github_link.trim()
+        );
+
         // Ensure required fields are filled
-        for (const proj of projects) {
-            if (!proj.title || !proj.description || !proj.technologies) {
-                setErrors("Please fill in all required fields (title, description, technologies) or remove empty projects.");
-                setLoading(false);
-                return;
+        if (nonEmptyProjects.length > 0) {
+            for (const proj of nonEmptyProjects) {
+                if (!proj.title.trim() || !proj.description.trim() || !proj.technologies.trim()) {
+                    setErrors("Please fill in all required fields or remove incomplete projects.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -102,6 +103,7 @@ export default function ProjectsTab() {
             );
             console.log('Submitted projects:', projects);
             setMessage(response.data.message || "Projects updated successfully.");
+            setProjects(nonEmptyProjects);
             setTimeout(() => setMessage(''), 3000);
         } catch (error) {
             console.error("Failed to save projects:", error);
@@ -147,6 +149,12 @@ export default function ProjectsTab() {
                 )}
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
+            {projects.length === 0 && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                    No project added yet.
+                </p>
+            )}
+
             {projects.map((project, index) => (
                 <div key={index} className="border p-4 rounded-lg bg-white shadow dark:bg-gray-800">
                     <h3 className="font-semibold text-lg mb-4 dark:text-white">Project {index + 1}</h3>
@@ -211,16 +219,13 @@ export default function ProjectsTab() {
                             className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
                         />
                     </div>
-
-                    {projects.length > 1 && (
-                        <button
-                            type="button"
-                            onClick={() => removeProject(index)}
-                            className="text-red-600 mt-4 hover:underline"
-                        >
-                            Remove
-                        </button>
-                    )}
+                    <button
+                        type="button"
+                        onClick={() => removeProject(index)}
+                        className="text-red-600 mt-4 hover:underline"
+                    >
+                        Remove
+                    </button>
                 </div>
             ))}
 

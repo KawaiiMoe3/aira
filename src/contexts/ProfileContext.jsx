@@ -46,17 +46,17 @@ export const ProfileProvider = ({ children }) => {
 
     const fetchExperiences = async () => {
         const res = await axios.get(`${API_BASE_URL}edit-profile/experiences/`, { withCredentials: true });
-        setExperiences(res.data || []);
+        setExperiences(res.data?.experiences || []);
     };
 
     const fetchProjects = async () => {
         const res = await axios.get(`${API_BASE_URL}edit-profile/projects/`, { withCredentials: true });
-        setProjects(res.data || []);
+        setProjects(res.data?.projects || []);
     };
 
     const fetchCertifications = async () => {
         const res = await axios.get(`${API_BASE_URL}edit-profile/certifications/`, { withCredentials: true });
-        setCertifications(res.data || []);
+        setCertifications(res.data?.certifications || []);
     };
 
     const fetchAllProfileData = async () => {

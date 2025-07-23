@@ -8,17 +8,7 @@ export default function ProfessionalRab() {
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [experiences, setExperiences] = useState([
-        {
-            company: '',
-            role: '',
-            start_date: '',
-            end_date: '',
-            contributions: '',
-            skills: '',
-            still_working: false,
-        },
-    ]);
+    const [experiences, setExperiences] = useState([]);
 
     useEffect(() => {
         const fetchExperiences = async () => {
@@ -37,10 +27,9 @@ export default function ProfessionalRab() {
                     skills: exp.skills || '',
                     still_working: exp.is_still_working || false,
                 }));
-    
-                setExperiences(formatted.length > 0 ? formatted : [{
-                    company: '', role: '', start_date: '', end_date: '', contributions: '', skills: '', still_working: false
-                }]);
+
+                // No fallback to empty field
+                setExperiences(formatted);
             } catch (error) {
                 console.error("Failed to load experiences", error);
                 setErrors("Failed to load experiences.");
@@ -66,6 +55,7 @@ export default function ProfessionalRab() {
                 end_date: '',
                 contributions: '',
                 skills: '',
+                still_working: false,
             },
         ]);
     };
@@ -83,11 +73,13 @@ export default function ProfessionalRab() {
         setLoading(true);
 
         // Validation
-        for (let exp of experiences) {
-            if (!exp.company.trim() || !exp.role.trim() || !exp.start_date) {
-                setErrors("Please fill in all required fields or remove empty ones.");
-                setLoading(false);
-                return;
+        if (experiences.length > 0) {
+            for (let exp of experiences) {
+                if (!exp.company.trim() || !exp.role.trim() || !exp.start_date) {
+                    setErrors("Please fill in all required fields or remove empty entries.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -161,6 +153,14 @@ export default function ProfessionalRab() {
                 )}
             </div>
             <form onSubmit={handleSubmit} className="space-y-6">
+
+                {/* Fallback if no entries */}
+                {experiences.length === 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                        No professional exprience added yet.
+                    </p>
+                )}
+
                 {experiences.map((exp, index) => (
                 <div key={index} className="border p-4 rounded-lg bg-white dark:bg-gray-800 shadow">
                     <h3 className="font-semibold text-lg mb-4 dark:text-white">Experience {index + 1}</h3>
@@ -259,8 +259,6 @@ export default function ProfessionalRab() {
                         </label>
                         <label className="cursor-pointer ml-2 text-sm text-gray-700 dark:text-white" htmlFor={`still_working_${ index + 1 }`}>Still working here?</label>
                     </div>
-
-                    {experiences.length > 1 && (
                     <button
                         type="button"
                         onClick={() => removeExperience(index)}
@@ -268,7 +266,6 @@ export default function ProfessionalRab() {
                     >
                         Remove
                     </button>
-                    )}
                 </div>
                 ))}
 

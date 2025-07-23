@@ -30,7 +30,7 @@ export default function EducationSection() {
                     />
                 ))
             ) : (
-                <p className="text-sm text-gray-500 italic">No education added yet.</p>
+                <p className="text-sm text-gray-500 italic">You haven't added any educations yet.</p>
             )}
             </div>
         </div>

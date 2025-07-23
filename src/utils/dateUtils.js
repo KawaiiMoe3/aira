@@ -1,4 +1,4 @@
-// Format date: Month YYYY
+// Format date for start_date and end_date to: Month YYYY - Month YYYY/Present
 export function formatDateRange(startDate, endDate) {
     const options = { year: 'numeric', month: 'long' };
 
@@ -16,3 +16,10 @@ export function formatDateRange(startDate, endDate) {
     return `${start} - ${end}`;
 }
 
+// Format single date to: Month YYYY
+export function formatDateToMonthYear(date) {
+    if (!date || isNaN(new Date(date).getTime())) return '';
+
+    const options = { year: 'numeric', month: 'long' };
+    return new Date(date).toLocaleDateString('en-US', options);
+}

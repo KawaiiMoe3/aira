@@ -8,33 +8,24 @@ export default function CertificationsTab() {
     const [errors, setErrors] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const [certifications, setCertifications] = useState([
-        { title: '', issuer: '', date: '' },
-    ]);
+    const [certifications, setCertifications] = useState([]);
 
     useEffect(() => {
         const fetchCertifications = async () => {
             try {
-                const response = await axios.get(`${API_BASE_URL}edit-profile/certifications/`, { withCredentials: true });
+                const response = await axios.get(`${API_BASE_URL}edit-profile/certifications/`, {
+                    withCredentials: true
+                });
                 const data = response.data.certifications || [];
-    
-                const formatted = data.map(cert => ({
-                    title: cert.title || '',
-                    issuer: cert.issuer || '',
-                    date: cert.date || '',
-                }));
-    
-                setCertifications(formatted.length > 0 ? formatted : [{
-                    title: '', issuer: '', date: ''
-                }]);
+                setCertifications(Array.isArray(data) && data.length > 0 ? data : []);
             } catch (error) {
                 console.error("Failed to load certifications", error);
                 setErrors("Failed to load certifications.");
             }
         };
-    
+
         fetchCertifications();
-    }, []);    
+    }, []); 
     
     const handleChange = (index, e) => {
         const updated = [...certifications];
@@ -58,12 +49,17 @@ export default function CertificationsTab() {
         setMessage('');
         setLoading(true);
 
+        // Remove completely empty certifications
+        const nonEmptyCerts = certifications.filter(cert => cert.title.trim());
+
         // Validation of title
-        for (const cert of certifications) {
-            if (!cert.title) {
-                setErrors("Please fill in the 'Title' field for each certification or remove the empty one.");
-                setLoading(false);
-                return;
+        if (nonEmptyCerts.length > 0) {
+            for (const cert of nonEmptyCerts) {
+                if (!cert.title.trim()) {
+                    setErrors("Please fill in the 'Title' field for each certification or remove empty ones.");
+                    setLoading(false);
+                    return;
+                }
             }
         }
 
@@ -85,6 +81,7 @@ export default function CertificationsTab() {
 
             console.log('Submitted Certifications:', certifications);
             setMessage(response.data.message || "Certifications updated successfully.");
+            setCertifications(nonEmptyCerts);
             setTimeout(() => setMessage(''), 3000);
         } catch (error) {
             console.error("Failed to save certifications:", error);
@@ -129,7 +126,14 @@ export default function CertificationsTab() {
                 </div>
                 )}
             </div>
+
             <form onSubmit={handleSubmit} className="space-y-6">
+            {certifications.length === 0 && (
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-2">
+                    No certifications added yet.
+                </p>
+            )}
+
             {certifications.map((cert, index) => (
                 <div key={index} className="border p-4 rounded-lg bg-white shadow dark:bg-gray-800">
                     <h3 className="font-semibold text-lg mb-4 dark:text-white">Certification {index + 1}</h3>
@@ -155,6 +159,7 @@ export default function CertificationsTab() {
                             onChange={(e) => handleChange(index, e)}
                             placeholder="e.g., Coursera, Microsoft"
                             className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            required
                         />
                     </div>
 
@@ -166,18 +171,16 @@ export default function CertificationsTab() {
                             value={cert.date}
                             onChange={(e) => handleChange(index, e)}
                             className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            required
                         />
                     </div>
-
-                        {certifications.length > 1 && (
-                        <button
-                            type="button"
-                            onClick={() => removeCertification(index)}
-                            className="text-red-600 mt-3 hover:underline"
-                        >
-                            Remove
-                        </button>
-                        )}
+                    <button
+                        type="button"
+                        onClick={() => removeCertification(index)}
+                        className="text-red-600 mt-3 hover:underline"
+                    >
+                        Remove
+                    </button>
                 </div>
             ))}
 
