@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useProfile } from '../../contexts/ProfileContext';
 import Swal from 'sweetalert2';
 
 import { BiSolidMoon, BiSolidSun } from 'react-icons/bi';
@@ -71,6 +72,7 @@ export default function Navbar() {
 
     // Logout button
     const { isAuthenticated, user, logout } = useAuth();
+    const { profileImage } = useProfile();
     const handleLogout = async () => {
         const result = await Swal.fire({
             title: 'Leaving so soon?',
@@ -212,9 +214,9 @@ export default function Navbar() {
                                                     className="flex items-center gap-1 cursor-pointer h-[72px] text-slate-300 hover:brightness-125 transition-all duration-200 px-2 py-1 rounded-md"
                                                 >
                                                     <img
-                                                        src={user.avatar || guest}
+                                                        src={profileImage || guest}
                                                         alt="User Avatar"
-                                                        className="w-8 h-8 rounded-full object-cover"
+                                                        className="w-8 h-8 rounded-full object-cover border-2 border-white"
                                                     />
                                                     <span className='inline-block max-w-[12ch] overflow-hidden text-ellipsis whitespace-nowrap'>
                                                         {user.username}
@@ -319,7 +321,7 @@ export default function Navbar() {
                 </nav>
             </header>
             {/* Mobile menu section */}
-            <ResponsiveMenu showMenu={showMenu} />
+            <ResponsiveMenu showMenu={showMenu} profileImage={profileImage} />
         </div>
     )
 }

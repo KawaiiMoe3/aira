@@ -3,8 +3,11 @@ import axios from 'axios';
 import { API_BASE_URL } from '../../../utils/ViteApiBaseUrl';
 import guest from '../../../assets/guest.png'
 import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { useProfile } from '../../../contexts/ProfileContext';
 
 export default function ProfileImageTab() {
+
+    const { setProfileImage } = useProfile();
 
     const fileInputRef = useRef();
     const [image, setImage] = useState(null); // File object
@@ -98,6 +101,7 @@ export default function ProfileImageTab() {
             setImage(null); // Clear file input
             setCurrentImageUrl(newImageUrl);
             setPreviewUrl(newImageUrl); // Show updated image
+            setProfileImage(newImageUrl); // update global context
             setTimeout(() => setSuccessMessage(''), 3000);
         } catch (error) {
             console.error('Upload error:', error);
