@@ -27,63 +27,53 @@ import EducationTab from './components/Profile/EditProfileTabs/EducationTab';
 import ProfessionalRab from './components/Profile/EditProfileTabs/ProfessionalTab';
 import ProjectsTab from './components/Profile/EditProfileTabs/ProjectsTab';
 import CertificationsTab from './components/Profile/EditProfileTabs/CertificationsTab';
+import ProfileImageTab from './components/Profile/EditProfileTabs/ProfileImageTab';
 
 export default function App() {
   
   
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/faqs" element={<Faqs />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+      <ProfileProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/faqs" element={<Faqs />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
 
-          {/* Account nested routes */}
-          <Route path="/account" element={<Account />}>
-            <Route index element={<Navigate to="general" />} />
-            <Route path="general" element={<GeneralTab />} />
-            <Route path="password" element={<PasswordTab />} />
-          </Route>
+            {/* Account nested routes */}
+            <Route path="/account" element={<Account />}>
+              <Route index element={<Navigate to="general" />} />
+              <Route path="general" element={<GeneralTab />} />
+              <Route path="password" element={<PasswordTab />} />
+            </Route>
 
-          {/* Profile nested routes */}
-          <Route 
-            path="/profile" 
-            element={
-              <ProfileProvider>
-                <Profile />
-              </ProfileProvider>
-            }
-          />
-          <Route 
-            path="/profile/edit-profile" 
-            element={
-              <ProfileProvider>
-                <EditProfile />
-              </ProfileProvider>
-            }
-          >
-            <Route index element={<Navigate to="profile-info" />} />
-            <Route path="profile-info" element={<ProfileInfoTab />} />
-            <Route path="summary" element={<SummaryTab />} />
-            <Route path="languages" element={<LanguagesTab />} />
-            <Route path="skills" element={<SkillsTab />} />
-            <Route path="education" element={<EducationTab />} />
-            <Route path="professional" element={<ProfessionalRab />} />
-            <Route path="projects" element={<ProjectsTab />} />
-            <Route path="certifications" element={<CertificationsTab />} />
-          </Route>
+            {/* Profile nested routes */}
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/edit-profile" element={<EditProfile /> }>
+              <Route index element={<Navigate to="profile-info" />} />
+              <Route path="profile-info" element={<ProfileInfoTab />} />
+              <Route path="profile-image" element={<ProfileImageTab />} />
+              <Route path="summary" element={<SummaryTab />} />
+              <Route path="languages" element={<LanguagesTab />} />
+              <Route path="skills" element={<SkillsTab />} />
+              <Route path="education" element={<EducationTab />} />
+              <Route path="professional" element={<ProfessionalRab />} />
+              <Route path="projects" element={<ProjectsTab />} />
+              <Route path="certifications" element={<CertificationsTab />} />
+            </Route>
 
-          <Route path="/analyzer/upload-resume" element={<UploadResume />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-        <GoToTopButton />
-      </BrowserRouter>
+            <Route path="/analyzer/upload-resume" element={<UploadResume />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+          <GoToTopButton />
+        </BrowserRouter>
+      </ProfileProvider>
     </AuthProvider>
   );
 }

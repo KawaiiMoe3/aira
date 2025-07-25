@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext';
 import { FaRegEdit } from 'react-icons/fa';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 export default function GeneralTab() {

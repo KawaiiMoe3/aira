@@ -10,6 +10,7 @@ export const ProfileProvider = ({ children }) => {
 
     // Store each profile section
     const [info, setInfo] = useState(null);
+    const [profileImage, setProfileImage] = useState();
     const [summary, setSummary] = useState('');
     const [languages, setLanguages] = useState([]);
     const [skills, setSkills] = useState([]);
@@ -23,6 +24,11 @@ export const ProfileProvider = ({ children }) => {
         const res = await axios.get(`${API_BASE_URL}edit-profile/info/`, { withCredentials: true });
         setInfo(res.data);
     };
+
+    const fetchProfileImage = async () => {
+        const res = await axios.get(`${API_BASE_URL}edit-profile/profile-image/`, {withCredentials: true});
+        setProfileImage(res.data?.profile_image); // String URL image
+    }
 
     const fetchSummary = async () => {
         const res = await axios.get(`${API_BASE_URL}edit-profile/summary/`, { withCredentials: true });
@@ -64,6 +70,7 @@ export const ProfileProvider = ({ children }) => {
         try {
             await Promise.all([
                 fetchInfo(),
+                fetchProfileImage(),
                 fetchSummary(),
                 fetchLanguages(),
                 fetchSkills(),
@@ -88,6 +95,7 @@ export const ProfileProvider = ({ children }) => {
             value={{
                 loading,
                 info, setInfo,
+                profileImage, setProfileImage,
                 summary, setSummary,
                 languages, setLanguages,
                 skills, setSkills,

@@ -3,7 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom'
 import Navbar from '../../Navbar/Navbar'
 import { Helmet } from 'react-helmet'
 
-import { IoChevronDown, IoChevronUp, IoLanguage } from "react-icons/io5";
+import { IoChevronDown, IoChevronUp, IoLanguage, IoImageOutline } from "react-icons/io5";
 import { TbFileDescription, TbSchool, TbCertificate } from "react-icons/tb";
 import { HiOutlineLightningBolt } from "react-icons/hi";
 import { MdOutlineWorkOutline } from "react-icons/md";
@@ -71,6 +71,15 @@ export default function EditProfile() {
                                     >
                                         <LuInfo className='w-5 h-5' />
                                         <span>Info</span>
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="profile-image"
+                                        className={navItemClass} onClick={handleNavClick}
+                                    >
+                                        <IoImageOutline className='w-5 h-5' />
+                                        <span>Profile Image</span>
                                     </NavLink>
                                 </li>
                                 <li>

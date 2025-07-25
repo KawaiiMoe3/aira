@@ -10,7 +10,7 @@ import { RiMenuSearchLine } from "react-icons/ri";
 import { TbDeviceAnalytics, TbLayoutDashboard } from "react-icons/tb";
 import { LuSettings } from "react-icons/lu";
 
-export default function ResponsiveMenu({ showMenu }) {
+export default function ResponsiveMenu({ showMenu, profileImage }) {
     // console.log("showMenu", showMenu);
 
     const navigate = useNavigate();
@@ -66,9 +66,9 @@ export default function ResponsiveMenu({ showMenu }) {
                         <Link to="/profile" className="no-underline text-inherit">
                             <div className="flex items-center justify-start gap-3">
                                 <img
-                                    src={user.avatar || guest}
+                                    src={profileImage || guest}
                                     alt="User Avatar"
-                                    className="w-12 h-12 rounded-full object-cover"
+                                    className="w-12 h-12 rounded-full object-cover border-2 border-white"
                                 />
                                 <div>
                                     <h1 className='font-bold'>{user.username}</h1>
