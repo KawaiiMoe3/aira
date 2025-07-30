@@ -23,3 +23,18 @@ export function formatDateToMonthYear(date) {
     const options = { year: 'numeric', month: 'long' };
     return new Date(date).toLocaleDateString('en-US', options);
 }
+
+// Format date = H:M DD-MM-YYYY (Day)
+export function formatDate(dateString) {
+    const rawDate = new Date(dateString);
+
+    const hours = rawDate.getHours().toString().padStart(2, '0');
+    const minutes = rawDate.getMinutes().toString().padStart(2, '0');
+    const day = rawDate.getDate().toString().padStart(2, '0');
+    const month = (rawDate.getMonth() + 1).toString().padStart(2, '0'); // months are 0-indexed
+    const year = rawDate.getFullYear();
+
+    const dayName = rawDate.toLocaleDateString('en-US', { weekday: 'long' });
+
+    return `${hours}:${minutes} ${day}-${month}-${year} (${dayName})`;
+}
