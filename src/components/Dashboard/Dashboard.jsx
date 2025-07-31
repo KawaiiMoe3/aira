@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Helmet } from 'react-helmet'
 import { useAuth } from '../../contexts/AuthContext'
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import { formatDate } from '../../utils/dateUtils';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import LiveClock from '../Timer/LiveClock';
 
 import { ImProfile } from "react-icons/im";
 import { FaUpload } from "react-icons/fa";
 import { TbActivity } from "react-icons/tb";
 import { MdOutlineAccessTime, MdOutlineRocketLaunch } from "react-icons/md";
-import LiveClock from '../Timer/LiveClock';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import TableHistory from './TableHistory';
 
 export default function Dashboard() {
 
@@ -60,7 +61,7 @@ export default function Dashboard() {
                     <div className='mt-12'>
                         <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
                             {/* Status items */}
-                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-slate-950 text-gray-700 shadow-md">
+                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-[#1e1e1e] text-gray-700 shadow-md">
                                 <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
                                     <ImProfile className='w-8 h-8' />
                                 </div>
@@ -88,7 +89,7 @@ export default function Dashboard() {
                                     )}
                                 </div>
                             </div>
-                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-slate-950 text-gray-700 shadow-md">
+                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-[#1e1e1e] text-gray-700 shadow-md">
                                 <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
                                     <FaUpload className='w-8 h-8' />
                                 </div>
@@ -104,7 +105,7 @@ export default function Dashboard() {
                                     </p>
                                 </div>
                             </div>
-                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-slate-950 text-gray-700 shadow-md">
+                            <div className="relative flex flex-col bg-clip-border rounded-xl bg-white dark:bg-[#1e1e1e] text-gray-700 shadow-md">
                                 <div className="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
                                     <TbActivity className='w-8 h-8' />
                                 </div>
@@ -123,13 +124,17 @@ export default function Dashboard() {
                         </div>
                     </div>
                     {/* Upload Resume button */}
-                    <div className='my-12 flex justify-center'>
+                    <div className='mt-12 flex justify-center'>
                         <Link to="/analyzer/upload-resume">
                             <button className='btn-primary flex items-center gap-2'>
                                 <MdOutlineRocketLaunch className='w-5 h-5' />
                                 Boost Your Resume Now!
                             </button>
                         </Link>
+                    </div>
+                    {/* Table History */}
+                    <div className='my-12'>
+                        <TableHistory />
                     </div>
                 </div>
                 <Footer />

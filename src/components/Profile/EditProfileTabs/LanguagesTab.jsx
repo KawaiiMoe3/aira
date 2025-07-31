@@ -145,16 +145,16 @@ export default function LanguagesTab() {
                             placeholder="Language"
                             value={lang.name}
                             onChange={(e) => handleChange(index, 'name', e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             required
                         />
                         <select
                             value={lang.proficiency}
                             onChange={(e) => handleChange(index, 'proficiency', e.target.value)}
-                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             required
                         >
-                            <option value="">Select Proficiency</option>
+                            <option value="">--Select Proficiency--</option>
                             <option value="Fluent">Fluent</option>
                             <option value="Moderate">Moderate</option>
                             <option value="Basic">Basic</option>

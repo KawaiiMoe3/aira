@@ -280,9 +280,9 @@ export default function Navbar() {
                             {/* Light and dark mode switcher */}
                             {
                                 theme === "dark" ? (
-                                    <BiSolidMoon className='text-2xl' onClick={() => setTheme("light")} />
+                                    <BiSolidSun className='text-2xl' onClick={() => setTheme("light")} />
                                 ) : (
-                                    <BiSolidSun className='text-2xl' onClick={() => setTheme("dark")} />
+                                    <BiSolidMoon className='text-2xl' onClick={() => setTheme("dark")} />
                                 )
                             }
                         </ul>
@@ -291,12 +291,12 @@ export default function Navbar() {
                     <div className="flex items-center gap-4 md:hidden ">
                         {
                             theme === "dark" ? (
-                                <BiSolidMoon
+                                <BiSolidSun
                                     onClick={() => setTheme("light")}
                                     className="text-2xl"
                                 />
                                 ) : (
-                                <BiSolidSun
+                                <BiSolidMoon
                                     onClick={() => setTheme("dark")}
                                     className="text-2xl"
                                 />
