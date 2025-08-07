@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import { Helmet } from "react-helmet";
+import axios from 'axios';
 
 import { LuScanText } from "react-icons/lu";
 import { TbCloudUpload } from "react-icons/tb";
@@ -15,11 +18,12 @@ const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-office
 export default function UploadResume() {
 
     const { user } = useAuth();
-
+    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewURL, setPreviewURL] = useState('');
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const validateFile = (file) => {
         if (!ALLOWED_TYPES.includes(file.type)) {
@@ -75,6 +79,55 @@ export default function UploadResume() {
         if (e.target.files && e.target.files[0]) {
         handleFile(e.target.files[0]);
         }
+    };
+
+    const handleAnalyze = async () => {
+        if (!selectedFile) {
+            setError('Please select a resume to analyze.');
+            return;
+        }
+    
+        setLoading(true);
+
+        setTimeout(async () => {
+            const formData = new FormData();
+            formData.append('resume', selectedFile);
+            formData.append('ai_feedback', 'Your resume is well-structured, but you could improve your skills section by adding more action-oriented keywords.');
+            formData.append('enhanced_resume', `Name: ${user.username || 'John Doe'}\nSkills: Python, React, Machine Learning\nExperience: 3 Years at ABC Corp`);
+
+            try {
+                // Get CSRF token from backend
+                const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {
+                    withCredentials: true,
+                });
+                const csrfToken = csrfResponse.data.csrfToken;
+
+                // Submit resume for analyze
+                const response = await axios.post(
+                    `${API_BASE_URL}analyze-resume/`,
+                    formData,
+                    {
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Content-Type': 'multipart/form-data',
+                        },
+                        withCredentials: true,
+                    }
+                );
+
+                if (response.status === 200) {
+                    const resumeId = response.data.id;
+                    navigate(`/feedback/${resumeId}`);
+                } else {
+                    setError('Failed to analyze resume. Try again.');
+                }
+            } catch (error) {
+                console.error(error);
+                setError('Server error. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        }, 3000);
     };
 
     return (
@@ -165,12 +218,27 @@ export default function UploadResume() {
 
                         {/* Analyze Resume Button */}
                         <button 
-                            className="mt-10 btn-primary flex items-center gap-2"
+                            className={`mt-10 btn-primary flex items-center gap-2 ${
+                                loading ? 'cursor-not-allowed opacity-70' : ''
+                            }`}
+                            onClick={handleAnalyze}
+                            disabled={loading}
                         >
-                            <span className="text-2xl">
-                                <LuScanText />
-                            </span>
-                            Analyze Your Resume
+                            {loading ? (
+                                <div className="flex items-center justify-center">
+                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                                    </svg>
+                                </div>
+                            ) : (
+                                <>
+                                    <span className="text-2xl">
+                                        <LuScanText />
+                                    </span>
+                                    Analyze Your Resume
+                                </>
+                            )}
                         </button>
 
                     </div>

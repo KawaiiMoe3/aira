@@ -23,6 +23,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
 import Swal from 'sweetalert2';
 import ok from "../../assets/ok.png";
+import axios from 'axios';
+import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 
 function getMuiThemeFromHtmlClass() {
     const isDark = document.documentElement.classList.contains('dark');
@@ -33,15 +35,15 @@ function getMuiThemeFromHtmlClass() {
     });
 }
 
-function createData(id, title, date, analysisReport) {
-    return { id, title, date, analysisReport };
+function createData(id, title, date, uploadedResume, analysisReport) {
+    return { id, title, date, uploadedResume, analysisReport };
 }
 
-const initialRows = [
-    createData(1, 'MyResume1', '07 Apr 2025, 13:28', 'MyResume1_report.pdf'),
-    createData(2, 'MyResume2', '08 Apr 2025, 13:28', 'MyResume2_report.pdf'),
-    createData(3, 'MyResume3', '09 Apr 2025, 13:28', 'MyResume3_report.pdf'),
-];
+// const initialRows = [
+//     createData(2, 'uploadedResume_file_name', '08 Apr 2025, 13:28', 'uploadedResume_file','MyResume2_report.pdf'),
+//     createData(1, 'uploadedResume_file_name', '07 Apr 2025, 13:28', 'uploadedResume_file','MyResume1_report.pdf'),
+//     createData(3, 'uploadedResume_file_name', '09 Apr 2025, 13:28', 'uploadedResume_file','MyResume3_report.pdf'),
+// ];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
@@ -59,6 +61,7 @@ const headCells = [
     { id: 'no', numeric: false, disablePadding: false, label: 'No.' },
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
     { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
+    { id: 'uploadedResume', numeric: false, disablePadding:false, label: 'Uploaded Resume' },
     { id: 'analysisReport', numeric: false, disablePadding: false, label: 'Analysis Report' },
 ];
 
@@ -163,7 +166,7 @@ export default function TableHistory() {
     const [page, setPage] = useState(0);
     const [dense, setDense] = useState(false);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-    const [localRows, setLocalRows] = useState(initialRows);
+    const [localRows, setLocalRows] = useState([]);
 
     useEffect(() => {
         const observer = new MutationObserver(() => {
@@ -176,6 +179,24 @@ export default function TableHistory() {
         });
 
         return () => observer.disconnect();
+    }, []);
+
+    useEffect(() => {
+        const fetchHistory = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}analyzed-history/`, {
+                    withCredentials: true,
+                });
+    
+                if (response.status === 200) {
+                    setLocalRows(response.data);
+                }
+            } catch (error) {
+                console.error("Error fetching resume analysis history:", error);
+            }
+        };
+    
+        fetchHistory();
     }, []);
 
     const handleRequestSort = (event, property) => {
@@ -213,7 +234,9 @@ export default function TableHistory() {
         setSelected(newSelected);
     };
 
-    const handleDeleteSelected = () => {
+    const handleDeleteSelected = async () => {
+        if (selected.length === 0) return;
+
         Swal.fire({
             title: 'Delete',
             text: `Delete ${selected.length} item(s)?`,
@@ -228,28 +251,62 @@ export default function TableHistory() {
                 confirmButton: 'custom-confirm-button',
                 cancelButton: 'custom-cancel-button',
             },
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                const deletedRows = localRows.filter((row) => selected.includes(row.id));
-                const remaining = localRows.filter((row) => !selected.includes(row.id));
-                console.log("Deleted rows:", deletedRows);
-                setLocalRows(remaining);
-                setSelected([]);
+                try {
+                    // Get CSRF token from backend
+                    const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {
+                        withCredentials: true,
+                    });
+                    const csrfToken = csrfResponse.data.csrfToken;
 
-                Swal.fire({
-                    title: 'Deleted!',
-                    text: 'Selected item(s) have been deleted.',
-                    imageUrl: ok,
-                    timer: 2000,
-                    showConfirmButton: false,
-                    customClass: {
-                        title: 'custom-title',
-                        htmlContainer: 'custom-html',
-                        popup: 'custom-swal-bg',
-                    },
-                });
+                    // Send delete request to backend
+                    await axios.delete(`${API_BASE_URL}delete-analyzed-history/`, {
+                        data: { ids: selected }, // pass selected IDs
+                        headers: {
+                            'X-CSRFToken': csrfToken,
+                            'Content-Type': 'application/json',
+                        },
+                        withCredentials: true,
+                    });
+
+                    const deletedRows = localRows.filter((row) => selected.includes(row.id));
+                    const remaining = localRows.filter((row) => !selected.includes(row.id));
+                    console.log("Deleted rows:", deletedRows);
+
+                    setLocalRows(remaining);
+                    setSelected([]);
+
+                    // Deleted alert
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Selected item(s) have been deleted.',
+                        imageUrl: ok,
+                        timer: 1500,
+                        showConfirmButton: false,
+                        customClass: {
+                            title: 'custom-title',
+                            htmlContainer: 'custom-html',
+                            popup: 'custom-swal-bg',
+                        },
+                    });
+                } catch (error) {
+                    console.error("Delete failed:", error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to delete item(s). Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        customClass: {
+                            title: 'custom-title',
+                            htmlContainer: 'custom-text',
+                            popup: 'custom-swal-bg',
+                            confirmButton: 'custom-confirm-button',
+                        },
+                    });
+                }
             }
-        })
+        });
     };
 
     const handleChangePage = (event, newPage) => {
@@ -319,7 +376,12 @@ export default function TableHistory() {
                                             </TableCell>
                                             <TableCell>{row.date}</TableCell>
                                             <TableCell>
-                                                <a href="#" className="text-purple-500">
+                                                <a href={`${API_BASE_URL}download-uploaded-resume/${row.uploadedResume}`} className="text-purple-500" download>
+                                                    {row.uploadedResume}
+                                                </a>
+                                            </TableCell>
+                                            <TableCell>
+                                                <a href={`/download/${row.analysisReport}`} className="text-purple-500" target="_blank" rel="noopener noreferrer">
                                                     {row.analysisReport}
                                                 </a>
                                             </TableCell>

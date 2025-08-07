@@ -38,3 +38,19 @@ export function formatDate(dateString) {
 
     return `${hours}:${minutes} ${day}-${month}-${year} (${dayName})`;
 }
+
+// Format to "DD Month YYYY, H:M"
+export const formatFullDateTime = (inputDate) => {
+    if (!inputDate) return "";
+  
+    const date = new Date(inputDate);
+  
+    const day = `${date.getDate()}`.padStart(2, "0");
+    const month = date.toLocaleString("en-GB", { month: "short" });
+    const year = date.getFullYear();
+  
+    const hours = `${date.getHours()}`.padStart(2, "0");
+    const minutes = `${date.getMinutes()}`.padStart(2, "0");
+  
+    return `${day} ${month} ${year}, ${hours}:${minutes}`;
+};  
