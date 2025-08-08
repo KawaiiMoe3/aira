@@ -29,6 +29,7 @@ import ProjectsTab from './components/Profile/EditProfileTabs/ProjectsTab';
 import CertificationsTab from './components/Profile/EditProfileTabs/CertificationsTab';
 import ProfileImageTab from './components/Profile/EditProfileTabs/ProfileImageTab';
 import Feedback from './components/Analyzer/Feedback';
+import PageNotFound from './components/PageNotFound/PageNotFound';
 
 export default function App() {
   
@@ -73,6 +74,8 @@ export default function App() {
             <Route path="/feedback/:id" element={<Feedback />} />
 
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/404" element={<PageNotFound />} />
+            <Route path="*" element={<PageNotFound />} /> {/* Any unknown path redirect to 404 */}
           </Routes>
           <GoToTopButton />
         </BrowserRouter>

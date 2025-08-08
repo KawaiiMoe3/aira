@@ -25,6 +25,7 @@ import Swal from 'sweetalert2';
 import ok from "../../assets/ok.png";
 import axios from 'axios';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import { HiOutlineDocumentText } from "react-icons/hi2";
 
 function getMuiThemeFromHtmlClass() {
     const isDark = document.documentElement.classList.contains('dark');
@@ -63,6 +64,7 @@ const headCells = [
     { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
     { id: 'uploadedResume', numeric: false, disablePadding:false, label: 'Uploaded Resume' },
     { id: 'analysisReport', numeric: false, disablePadding: false, label: 'Analysis Report' },
+    { id: 'viewAnalysisReport', numeric: false, disablePadding: false, label: '' },
 ];
 
 function EnhancedTableHead(props) {
@@ -376,14 +378,25 @@ export default function TableHistory() {
                                             </TableCell>
                                             <TableCell>{row.date}</TableCell>
                                             <TableCell>
-                                                <a href={`${API_BASE_URL}download-uploaded-resume/${row.uploadedResume}`} className="text-purple-500" download>
+                                                <a href={`${API_BASE_URL}download-uploaded-resume/${row.uploadedResume}/`} className="text-purple-500 hover:text-purple-700 duration-200" download>
                                                     {row.uploadedResume}
                                                 </a>
                                             </TableCell>
                                             <TableCell>
-                                                <a href={`/download/${row.analysisReport}`} className="text-purple-500" target="_blank" rel="noopener noreferrer">
+                                                <a href={`${API_BASE_URL}download-analysis-report/${row.analysisReport}/`} className="text-purple-500 hover:text-purple-700 duration-200" download>
                                                     {row.analysisReport}
                                                 </a>
+                                            </TableCell>
+                                            <TableCell>
+                                            <a
+                                                href={`/feedback/${row.id}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-1 border border-purple-500 text-purple-500 px-3 py-1.5 rounded-md hover:bg-purple-600 hover:text-white transition-colors duration-200"
+                                            >
+                                                <HiOutlineDocumentText className="text-lg" />
+                                                View
+                                            </a>
                                             </TableCell>
                                         </TableRow>
                                     );
