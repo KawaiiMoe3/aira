@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { alpha } from '@mui/material/styles';
@@ -191,7 +191,7 @@ export default function TableHistory() {
                 });
     
                 if (response.status === 200) {
-                    setLocalRows(response.data);
+                    setLocalRows(response.data.data);
                 }
             } catch (error) {
                 console.error("Error fetching resume analysis history:", error);
@@ -324,7 +324,7 @@ export default function TableHistory() {
         setDense(event.target.checked);
     };
 
-    const visibleRows = React.useMemo(
+    const visibleRows = useMemo(
         () =>
             [...localRows]
                 .sort(getComparator(order, orderBy))

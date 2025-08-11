@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import { Helmet } from "react-helmet";
 import axios from 'axios';
+import AiAnalyzingModal from '../LoadingModal/AiAnalyzingModal';
 
 import { LuScanText } from "react-icons/lu";
 import { TbCloudUpload } from "react-icons/tb";
@@ -24,6 +25,7 @@ export default function UploadResume() {
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showLoadingModal, setShowLoadingModal] = useState(false);
 
     const validateFile = (file) => {
         if (!ALLOWED_TYPES.includes(file.type)) {
@@ -88,46 +90,58 @@ export default function UploadResume() {
         }
     
         setLoading(true);
-
-        setTimeout(async () => {
+        setShowLoadingModal(true);
+        setError('');
+        
+        try {
             const formData = new FormData();
             formData.append('resume', selectedFile);
-            formData.append('ai_feedback', 'Your resume is well-structured, but you could improve your skills section by adding more action-oriented keywords.');
-            formData.append('enhanced_resume', `Name: ${user.username || 'John Doe'}\nSkills: Python, React, Machine Learning\nExperience: 3 Years at ABC Corp`);
+            
+            /** Demo ai feedback belike:
+             * formData.append('ai_feedback', 'Your resume is well-structured, but you could improve your skills section by adding more action-oriented keywords.');
+             * formData.append('enhanced_resume', `Name: ${user.username || 'John Doe'}\nSkills: Python, React, Machine Learning\nExperience: 3 Years at ABC Corp`);
+             */
 
-            try {
-                // Get CSRF token from backend
-                const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {
+            // Get CSRF token from backend
+            const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {
+                withCredentials: true,
+            });
+            const csrfToken = csrfResponse.data.csrfToken;
+
+            // Submit resume for analyze
+            const response = await axios.post(
+                `${API_BASE_URL}analyze-resume/`,
+                formData,
+                {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        'Content-Type': 'multipart/form-data',
+                    },
                     withCredentials: true,
-                });
-                const csrfToken = csrfResponse.data.csrfToken;
-
-                // Submit resume for analyze
-                const response = await axios.post(
-                    `${API_BASE_URL}analyze-resume/`,
-                    formData,
-                    {
-                        headers: {
-                            'X-CSRFToken': csrfToken,
-                            'Content-Type': 'multipart/form-data',
-                        },
-                        withCredentials: true,
-                    }
-                );
-
-                if (response.status === 200) {
-                    const resumeId = response.data.id;
-                    navigate(`/feedback/${resumeId}`);
-                } else {
-                    setError('Failed to analyze resume. Try again.');
                 }
-            } catch (error) {
-                console.error(error);
-                setError('Server error. Please try again later.');
-            } finally {
-                setLoading(false);
+            );
+
+            setShowLoadingModal(false);
+
+            if (response.status === 200) {
+                const resumeId = response.data.id;
+                window.open(`/feedback/${resumeId}`, '_blank');
+            } else {
+                setError('Failed to analyze resume. please try again.');
             }
-        }, 3000);
+        } catch (error) {
+            console.error(error);
+        
+            if (error.response && error.response.data && error.response.data.error) {
+                setError(error.response.data.error);
+            } else {
+                setError('Server error. Please try again later.');
+            }
+        
+            setShowLoadingModal(false);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -240,7 +254,9 @@ export default function UploadResume() {
                                 </>
                             )}
                         </button>
-
+                        
+                        {/* Loading analyze */}
+                        <AiAnalyzingModal isOpen={showLoadingModal} />
                     </div>
                 </div>
                 <Footer /> 

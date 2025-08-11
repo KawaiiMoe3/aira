@@ -20,6 +20,7 @@ export default function Dashboard() {
     const { user } = useAuth();
     const [status, setStatus] = useState('');
     const [message, setMessage] = useState('');
+    const [totalUploadedResume, setTotalUploadedResume] = useState(0);
 
     // Update Profile Status
     useEffect(() => {
@@ -30,6 +31,17 @@ export default function Dashboard() {
             })
             .catch(err => {
                 console.error('Failed to fetch profile status:', err);
+            });
+    }, []);
+
+    // Total uploaded resume
+    useEffect(() => {
+        axios.get(`${API_BASE_URL}analyzed-history/`, { withCredentials: true })
+            .then(res => {
+                setTotalUploadedResume(res.data.total_uploaded_resume)
+            })
+            .catch(err => {
+                console.error("Failed to query total uploaded resumes:", err)
             });
     }, []);
 
@@ -97,7 +109,7 @@ export default function Dashboard() {
                                     <p className="block antialiased font-sans dark:text-slate-500 text-sm leading-normal font-normal text-blue-gray-600">
                                         Uploaded Resumes
                                     </p>
-                                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900 dark:text-slate-100">3</h4>
+                                    <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900 dark:text-slate-100">{totalUploadedResume || 0}</h4>
                                 </div>
                                 <div className="border-t border-blue-gray-50 dark:border-slate-500 p-4">
                                     <p className="block antialiased font-sans text-base text-center leading-relaxed font-normal text-yellow-500">
