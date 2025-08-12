@@ -147,7 +147,7 @@ export default function GeneralTab() {
                             value={formData.username}
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                             disabled={!isEditing}
-                            className={`mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 ${
+                            className={`mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500 ${
                                 isEditing ? 'bg-white' : 'bg-gray-100 cursor-not-allowed'
                             }`}
                         />
@@ -163,7 +163,7 @@ export default function GeneralTab() {
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             disabled={!isEditing}
-                            className={`mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 ${
+                            className={`mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500 ${
                                 isEditing ? 'bg-white' : 'bg-gray-100 cursor-not-allowed'
                             }`}
                         />

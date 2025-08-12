@@ -162,7 +162,7 @@ export default function EducationTab() {
                                 value={edu.institution}
                                 onChange={(e) => handleChange(index, e)}
                                 required
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                                 placeholder='University of Malaya'
                             />
                         </div>
@@ -173,7 +173,7 @@ export default function EducationTab() {
                                 name="degree"
                                 value={edu.degree}
                                 onChange={(e) => handleChange(index, e)}
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                                 placeholder='Diploma/Bachelor Degree/Master'
                             />
                         </div>
@@ -184,7 +184,7 @@ export default function EducationTab() {
                                 name="field_of_study"
                                 value={edu.field_of_study}
                                 onChange={(e) => handleChange(index, e)}
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                                 placeholder='Software Engineer'
                             />
                         </div>
@@ -195,7 +195,7 @@ export default function EducationTab() {
                                 name="cgpa"
                                 value={edu.cgpa}
                                 onChange={(e) => handleChange(index, e)}
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                                 placeholder='4.00'
                             />
                         </div>
@@ -207,7 +207,7 @@ export default function EducationTab() {
                                 value={edu.start_date}
                                 onChange={(e) => handleChange(index, e)}
                                 required
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div>
@@ -219,7 +219,7 @@ export default function EducationTab() {
                                 onChange={(e) => handleChange(index, e)}
                                 disabled={edu.still_studying}
                                 required={!edu.still_studying}
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                     </div>

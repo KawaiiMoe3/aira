@@ -173,7 +173,7 @@ export default function ProfessionalRab() {
                                 value={exp.company}
                                 onChange={(e) => handleChange(index, e)}
                                 required
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div>
@@ -184,7 +184,7 @@ export default function ProfessionalRab() {
                                 value={exp.role}
                                 onChange={(e) => handleChange(index, e)}
                                 required
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div>
@@ -195,7 +195,7 @@ export default function ProfessionalRab() {
                                 value={exp.start_date}
                                 onChange={(e) => handleChange(index, e)}
                                 required
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div>
@@ -206,7 +206,7 @@ export default function ProfessionalRab() {
                                 value={exp.end_date}
                                 onChange={(e) => handleChange(index, e)}
                                 disabled={exp.still_working}
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div className="md:col-span-2">
@@ -217,7 +217,7 @@ export default function ProfessionalRab() {
                                 onChange={(e) => handleChange(index, e)}
                                 rows="3"
                                 placeholder="What did you achieve or contribute?"
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                         <div className="md:col-span-2">
@@ -228,7 +228,7 @@ export default function ProfessionalRab() {
                                 onChange={(e) => handleChange(index, e)}
                                 rows="2"
                                 placeholder="List of relevant skills used in this role"
-                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                                className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             />
                         </div>
                     </div>

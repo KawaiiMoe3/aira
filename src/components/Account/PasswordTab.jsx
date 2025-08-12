@@ -132,14 +132,14 @@ export default function PasswordTab() {
                             type="password"
                             value={currentPassword}
                             onChange={(e) => setCurrentPassword(e.target.value)}
-                            className="mt-1 border rounded-lg p-2 mb-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            className="mt-1 border rounded-lg p-2 mb-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-white">New Password</label>
                         <input
                             type="password"
-                            className="mt-1 border rounded-lg p-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            className="mt-1 border rounded-lg p-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             value={password}
                             onChange={(e) => handlePasswordChange(e.target.value)}
                         />
@@ -168,7 +168,7 @@ export default function PasswordTab() {
                             type="password"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="mt-1 border rounded-lg p-2 mb-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            className="mt-1 border rounded-lg p-2 mb-3 text-sm w-full focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
                     <button

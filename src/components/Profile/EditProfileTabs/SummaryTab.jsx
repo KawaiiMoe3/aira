@@ -86,7 +86,7 @@ export default function SummaryTab() {
                         value={summary}
                         onChange={(e) => setSummary(e.target.value)}
                         rows="5"
-                        className="mt-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                        className="mt-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         placeholder='Let people know about you.'
                     ></textarea>
 

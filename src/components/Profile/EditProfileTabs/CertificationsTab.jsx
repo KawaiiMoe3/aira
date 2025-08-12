@@ -146,7 +146,7 @@ export default function CertificationsTab() {
                             value={cert.title}
                             onChange={(e) => handleChange(index, e)}
                             required
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
 
@@ -158,7 +158,7 @@ export default function CertificationsTab() {
                             value={cert.issuer}
                             onChange={(e) => handleChange(index, e)}
                             placeholder="e.g., Coursera, Microsoft"
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             required
                         />
                     </div>
@@ -170,7 +170,7 @@ export default function CertificationsTab() {
                             name="date"
                             value={cert.date}
                             onChange={(e) => handleChange(index, e)}
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                             required
                         />
                     </div>

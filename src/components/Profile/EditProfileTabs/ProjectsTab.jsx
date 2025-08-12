@@ -167,7 +167,7 @@ export default function ProjectsTab() {
                             value={project.title}
                             onChange={(e) => handleChange(index, e)}
                             required
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
 
@@ -179,7 +179,7 @@ export default function ProjectsTab() {
                             onChange={(e) => handleChange(index, e)}
                             rows="3"
                             required
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
 
@@ -192,7 +192,7 @@ export default function ProjectsTab() {
                             onChange={(e) => handleChange(index, e)}
                             placeholder="e.g., React, Django, Tailwind"
                             required
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
 
@@ -204,7 +204,7 @@ export default function ProjectsTab() {
                             value={project.live_link}
                             onChange={(e) => handleChange(index, e)}
                             placeholder="https://example.com"
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
 
@@ -216,7 +216,7 @@ export default function ProjectsTab() {
                             value={project.github_link}
                             onChange={(e) => handleChange(index, e)}
                             placeholder="https://github.com/username/project"
-                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2"
+                            className="mt-1 mb-1 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 p-2 dark:bg-slate-900 dark:text-white dark:border-slate-500"
                         />
                     </div>
                     <button
