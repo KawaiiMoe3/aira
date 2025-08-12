@@ -21,6 +21,7 @@ export default function UploadResume() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedAiModel, setSelectedAiModel] = useState('gpt-5-nano');
     const [previewURL, setPreviewURL] = useState('');
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState('');
@@ -96,6 +97,7 @@ export default function UploadResume() {
         try {
             const formData = new FormData();
             formData.append('resume', selectedFile);
+            formData.append('ai_model', selectedAiModel);
             
             /** Demo ai feedback belike:
              * formData.append('ai_feedback', 'Your resume is well-structured, but you could improve your skills section by adding more action-oriented keywords.');
@@ -122,6 +124,8 @@ export default function UploadResume() {
             );
 
             setShowLoadingModal(false);
+            setSelectedFile(null);
+            setPreviewURL('');
 
             if (response.status === 200) {
                 const resumeId = response.data.id;
@@ -154,11 +158,42 @@ export default function UploadResume() {
                 <div className="container p-2">
                     <div className='flex flex-col items-center justify-center bg-gradient-to-r from-violet-950 to-violet-900 text-white p-12 my-12 rounded-2xl shadow-xl w-full max-w-4xl mx-auto'>
                         {/* Welcome Message */}
-                        <div className="text-center mb-10">
+                        <div className="text-center mb-6">
                             <h1 className="text-4xl md:text-5xl font-bold mb-2 flex items-center justify-center gap-2">
                                 Welcome back, {user?.username}! 👋
                             </h1>
                             <p className="text-lg text-blue-200">Let's analyze your next resume.</p>
+                        </div>
+
+                        {/* Select AI Model */}
+                        <div className="mb-6 w-full max-w-xl flex flex-col sm:flex-row sm:items-center gap-3">
+                            <label
+                                htmlFor="ai-model"
+                                className="text-white dark:text-gray-200 font-medium whitespace-nowrap"
+                            >
+                                AI Model:
+                            </label>
+                            <select
+                                id="ai-model"
+                                name="ai_model"
+                                className="w-full sm:flex-1 rounded-lg border border-gray-300 dark:border-gray-600
+                                        bg-slate-200 dark:bg-slate-800
+                                        text-gray-700 dark:text-gray-200
+                                        text-sm p-3 focus:outline-none 
+                                        focus:ring-2 focus:ring-violet-500"
+                                value={selectedAiModel}
+                                onChange={(e) => setSelectedAiModel(e.target.value)}
+                            >
+                                <option value="gpt-4.1-nano">
+                                    🚀 GPT-4.1 nano (Quick Analysis)
+                                </option>
+                                <option value="gpt-5-nano" selected>
+                                    ✨ GPT-5 nano (Recommended - Latest & Smart)
+                                </option>
+                                <option value="gpt-4o-mini">
+                                    🤖 GPT-4o mini (Smartest & Creativity)
+                                </option>
+                            </select>
                         </div>
 
                         {/* Drag and Drop zone */}

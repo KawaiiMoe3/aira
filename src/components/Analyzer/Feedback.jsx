@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import CopyButton from '../CopyButton/CopyButton';
 import { useAuth } from '../../contexts/AuthContext';
 import { useReactToPrint } from 'react-to-print';
+import { Helmet } from 'react-helmet';
 
-import { GrOptimize } from "react-icons/gr";
 import { IoInformationCircle } from "react-icons/io5";
 import { LuDownload } from "react-icons/lu";
+import logo from '../../assets/logo.png';
 
 export default function Feedback() {
     const navigate = useNavigate();
@@ -50,6 +51,9 @@ export default function Feedback() {
 
     return (
         <div>
+            <Helmet>
+                <title>AIRA | Analysis Report</title>
+            </Helmet>
             {/* Floating Download Button */}
             <div className="fixed bottom-20 right-6 z-50 group">
                 <button
@@ -66,13 +70,28 @@ export default function Feedback() {
                 </button>
             </div>
 
-            {/* Title of page */}
+            {/* Printed area */}
             <div ref={printRef}>
-                <h1 className="mt-6 text-3xl font-extrabold text-center text-indigo-800 dark:text-indigo-400">
-                    Resume Analysis & AI Suggestions
+                {/* AIRA Logo */}
+                <div className="flex justify-center items-center my-6">
+                    <img 
+                        src={logo} 
+                        alt="aira" 
+                        className="w-32 h-auto"
+                    />
+                </div>
+                {/* Title of page */}
+                <h1 className="mt-6 text-3xl font-extrabold text-center text-indigo-800">
+                    Resume Analysis & AI Suggestions Report
                 </h1>
+
+                {/* Powered by AI Model */}
+                <div className="mt-2 text-center text-sm text-gray-600">
+                    Powered by <span className="font-semibold">{data.ai_model}</span>
+                </div>
+                
+                {/* AI Feedback */}
                 <div className="p-6 max-w-5xl mx-auto space-y-8">
-                    {/* AI Feedback */}
                     <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 shadow-lg rounded-2xl p-6 relative">
                         <h1 className="text-2xl font-bold text-indigo-700 flex items-center gap-2">
                             💡 AI Feedback & Suggestion
@@ -102,7 +121,7 @@ export default function Feedback() {
                     <div className='flex justify-center items-center gap-1'>
                         <IoInformationCircle className='w-5 h-5 text-gray-500 dark:text-gray-400' />
                         <span className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                            This AI-generated content can make mistakes. Check important info.
+                            This AI-generated content can make mistakes. Check <Link to="/faqs" className='hover:underline'>important info</Link>.
                         </span>
                     </div>
                 </div>

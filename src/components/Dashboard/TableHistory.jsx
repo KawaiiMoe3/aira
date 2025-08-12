@@ -36,15 +36,18 @@ function getMuiThemeFromHtmlClass() {
     });
 }
 
-function createData(id, title, date, uploadedResume, analysisReport) {
-    return { id, title, date, uploadedResume, analysisReport };
-}
+/** Demo analyzed history table
 
-// const initialRows = [
-//     createData(2, 'uploadedResume_file_name', '08 Apr 2025, 13:28', 'uploadedResume_file','MyResume2_report.pdf'),
-//     createData(1, 'uploadedResume_file_name', '07 Apr 2025, 13:28', 'uploadedResume_file','MyResume1_report.pdf'),
-//     createData(3, 'uploadedResume_file_name', '09 Apr 2025, 13:28', 'uploadedResume_file','MyResume3_report.pdf'),
-// ];
+    function createData(id, title, date, uploadedResume, analysisReport) {
+        return { id, title, date, uploadedResume, analysisReport };
+    }
+    
+    const initialRows = [
+        createData(2, 'uploadedResume_file_name', '08 Apr 2025, 13:28', 'uploadedResume_file','MyResume2_report.pdf'),
+        createData(1, 'uploadedResume_file_name', '07 Apr 2025, 13:28', 'uploadedResume_file','MyResume1_report.pdf'),
+        createData(3, 'uploadedResume_file_name', '09 Apr 2025, 13:28', 'uploadedResume_file','MyResume3_report.pdf'),
+    ];
+*/ 
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
@@ -62,6 +65,7 @@ const headCells = [
     { id: 'no', numeric: false, disablePadding: false, label: 'No.' },
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
     { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
+    { id: 'ai_model', numeric: false, disablePadding: false, label: 'AI Model' },
     { id: 'uploadedResume', numeric: false, disablePadding:false, label: 'Uploaded Resume' },
     { id: 'analysisReport', numeric: false, disablePadding: false, label: 'Analysis Report' },
     { id: 'viewAnalysisReport', numeric: false, disablePadding: false, label: '' },
@@ -377,6 +381,7 @@ export default function TableHistory() {
                                                 {row.title}
                                             </TableCell>
                                             <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.ai_model}</TableCell>
                                             <TableCell>
                                                 <a href={`${API_BASE_URL}download-uploaded-resume/${row.uploadedResume}/`} className="text-purple-500 hover:text-purple-700 duration-200" download>
                                                     {row.uploadedResume}
