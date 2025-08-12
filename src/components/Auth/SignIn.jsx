@@ -8,6 +8,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import { GOOGLE_CLIENT_ID } from '../../utils/ViteGoogleClientId';
+import GoogleSignInButton from './GoogleSignInButton';
 
 export default function SignIn() {
 
@@ -134,12 +136,13 @@ export default function SignIn() {
                         <h5 className='text-center text-gray-400'>or continue with</h5>
                         <div className="p-5">
                             <div className="grid grid-cols-1 gap-1 sm:grid-cols-1">
-                                <button 
+                                {/* <button 
                                     type="button" 
                                     className="transition duration-200 border border-gray-200 text-gray-500 w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-normal text-center inline-block"
                                 >
                                     Google
-                                </button>
+                                </button> */}
+                                <GoogleSignInButton clientId={GOOGLE_CLIENT_ID} />
                             </div>
                         </div>
                         <hr />
