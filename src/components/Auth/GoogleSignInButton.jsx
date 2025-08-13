@@ -40,5 +40,5 @@ export default function GoogleSignInButton({ clientId }) {
         );
     }, [clientId, checkAuth]);
 
-    return <div id="google-signin" className="flex justify-center"></div>;
+    return <div id="google-signin" className="flex justify-center w-full"></div>;
 }
