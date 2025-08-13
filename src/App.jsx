@@ -30,6 +30,7 @@ import CertificationsTab from './components/Profile/EditProfileTabs/Certificatio
 import ProfileImageTab from './components/Profile/EditProfileTabs/ProfileImageTab';
 import Feedback from './components/Analyzer/Feedback';
 import PageNotFound from './components/PageNotFound/PageNotFound';
+import GuestRoute from './components/Auth/GuestRoute';
 
 export default function App() {
   
@@ -43,8 +44,24 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/faqs" element={<Faqs />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
+
+            <Route 
+              path="/signin" 
+              element={
+                <GuestRoute>
+                  <SignIn />
+                </GuestRoute>
+              } 
+            />
+            <Route 
+              path="/signup" 
+              element={
+                <GuestRoute>
+                  <SignUp />
+                </GuestRoute>
+              } 
+            />
+
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
 
