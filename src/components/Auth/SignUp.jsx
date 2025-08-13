@@ -6,7 +6,6 @@ import { FaArrowLeft, FaArrowUp } from "react-icons/fa";
 import aira from "../../assets/aira.png";
 import { Helmet } from 'react-helmet';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
-import Cookies from 'js-cookie';
 import GoogleSignInButton from './GoogleSignInButton';
 import { GOOGLE_CLIENT_ID } from '../../utils/ViteGoogleClientId';
 
@@ -99,9 +98,9 @@ export default function SignIn() {
         // Submit the form
         try {
             // Get CSRF token
-            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
+            const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
             // Get it from cookies
-            const csrfToken = Cookies.get('csrftoken');
+            const csrfToken = csrfResponse.data.csrfToken;
             
             const response = await axios.post(
                 `${API_BASE_URL}signup/`, {

@@ -4,7 +4,7 @@ import { API_BASE_URL } from "../../utils/ViteApiBaseUrl";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function GoogleSignInButton({ clientId }) {
+export default function GoogleSignInButton({ clientId, onError }) {
     const { checkAuth } = useAuth();
     const navigate = useNavigate();
 
@@ -16,11 +16,18 @@ export default function GoogleSignInButton({ clientId }) {
                 // response.credential is the ID token (JWT)
                 try {
                     // Get CSRF token
-                    await axios.get(`${API_BASE_URL}csrf/`, { withCredentials: true });
+                    const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, { withCredentials: true });
+                    // Get it from cookies
+                    const csrfToken = csrfResponse.data.csrfToken;
 
                     await axios.post(`${API_BASE_URL}auth/google/`, 
                         { token: response.credential },
-                        { withCredentials: true } // important to allow session cookie
+                        { 
+                            withCredentials: true,
+                            headers: {
+                                "X-CSRFToken": csrfToken
+                            }
+                        } // important to allow session cookie
                     );
 
                     // refresh auth state
@@ -30,6 +37,13 @@ export default function GoogleSignInButton({ clientId }) {
                 } catch (err) {
                     console.error("Google login failed:", err?.response || err);
                     // show UI error
+                    if (onError) {
+                        if (err.response?.data?.detail) {
+                            onError(err.response.data.detail);
+                        } else {
+                            onError("Google login failed. Please try again.");
+                        }
+                    }
                 }
             },
         });
@@ -38,7 +52,7 @@ export default function GoogleSignInButton({ clientId }) {
             document.getElementById("google-signin"),
             { theme: "outline", size: "large" }
         );
-    }, [clientId, checkAuth]);
+    }, [clientId, checkAuth, navigate, onError]);
 
     return <div id="google-signin" className="flex justify-center"></div>;
 }

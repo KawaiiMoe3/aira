@@ -5,7 +5,6 @@ import { LuLockKeyholeOpen } from "react-icons/lu";
 import aira from "../../assets/aira.png";
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useAuth } from '../../contexts/AuthContext';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import { GOOGLE_CLIENT_ID } from '../../utils/ViteGoogleClientId';
@@ -35,9 +34,9 @@ export default function SignIn() {
             setLoading(true);
 
             // Get CSRF token
-            await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
+            const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {withCredentials: true});
             // Get it from cookies
-            const csrfToken = Cookies.get('csrftoken');
+            const csrfToken = csrfResponse.data.csrfToken;
             // Send CSRF token in headers during Sign in
             const response = await axios.post(
                 `${API_BASE_URL}signin/`,
@@ -142,7 +141,13 @@ export default function SignIn() {
                                 >
                                     Google
                                 </button> */}
-                                <GoogleSignInButton clientId={GOOGLE_CLIENT_ID} />
+                                <GoogleSignInButton 
+                                    clientId={GOOGLE_CLIENT_ID} 
+                                    onError={(message) => {
+                                        setErrorMsg(message);
+                                        setShowError(true);
+                                    }} 
+                                />
                             </div>
                         </div>
                         <hr />
