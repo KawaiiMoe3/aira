@@ -34,11 +34,13 @@ export default function GoogleSignInButton({ clientId }) {
             },
         });
 
-        window.google.accounts.id.renderButton(
-            document.getElementById("google-signin"),
-            { theme: "outline", size: "large", width: "100%" }
-        );
+        const container = document.getElementById("google-signin");
+        google.accounts.id.renderButton(container, {
+            theme: "outline",
+            size: "large",
+            width: container.offsetWidth
+        });
     }, [clientId, checkAuth]);
 
-    return <div id="google-signin" className="flex justify-center w-full"></div>;
+    return <div id="google-signin"></div>;
 }
