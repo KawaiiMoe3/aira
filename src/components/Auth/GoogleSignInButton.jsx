@@ -36,9 +36,9 @@ export default function GoogleSignInButton({ clientId }) {
 
         window.google.accounts.id.renderButton(
             document.getElementById("google-signin"),
-            { theme: "outline", size: "large" }
+            { theme: "outline", size: "large", width: "100%" }
         );
     }, [clientId, checkAuth]);
 
-    return <div id="google-signin"></div>;
+    return <div id="google-signin" className="flex justify-center"></div>;
 }
