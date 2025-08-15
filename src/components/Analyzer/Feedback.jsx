@@ -87,11 +87,25 @@ export default function Feedback() {
 
                 {/* Powered by AI Model */}
                 <div className="mt-2 text-center text-sm text-gray-600">
-                    Powered by <span className="font-semibold">{data.ai_model}</span>
+                    AI powered by <span className="font-semibold">{data.ai_model}</span>
                 </div>
                 
-                {/* AI Feedback */}
+                {/* Contents */}
                 <div className="p-6 max-w-5xl mx-auto space-y-8">
+                    {/* Job desc */}
+                    <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 shadow-lg rounded-2xl p-6 relative">
+                        <h1 className="text-2xl font-bold text-indigo-700 flex items-center gap-2">
+                            💼 Job Description
+                        </h1>
+                        <p className="mt-4 text-gray-700 dark:text-gray-200 leading-relaxed whitespace-pre-wrap">
+                            {data.job_description}
+                        </p>
+                        <div className="absolute top-6 right-4 flex gap-3">
+                            <CopyButton textToCopy={data.job_description} />
+                        </div>
+                    </div>
+
+                    {/* AI Feedback */}
                     <div className="bg-gradient-to-br from-indigo-50 to-white dark:from-slate-800 dark:to-slate-900 shadow-lg rounded-2xl p-6 relative">
                         <h1 className="text-2xl font-bold text-indigo-700 flex items-center gap-2">
                             💡 AI Feedback & Suggestion

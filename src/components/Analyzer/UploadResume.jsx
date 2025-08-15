@@ -20,8 +20,11 @@ export default function UploadResume() {
 
     const { user } = useAuth();
     const navigate = useNavigate();
+    const MAX_LENGTH = 200;
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedAiModel, setSelectedAiModel] = useState('gpt-5-nano');
+    const [jobDesc, setJobDesc] = useState('');
+    const [errMsg, setErrMsg] = useState('');
     const [previewURL, setPreviewURL] = useState('');
     const [dragActive, setDragActive] = useState(false);
     const [error, setError] = useState('');
@@ -84,20 +87,37 @@ export default function UploadResume() {
         }
     };
 
+    const handleJobDescChange = (e) => {
+        const value = e.target.value;
+        setJobDesc(value);
+      
+        if (value.length <= MAX_LENGTH) {
+            setErrMsg('');
+        }
+    };
+
     const handleAnalyze = async () => {
         if (!selectedFile) {
             setError('Please select a resume to analyze.');
+            return;
+        } else if (jobDesc.length > MAX_LENGTH) {
+            setErrMsg(`Job description exceeded ${MAX_LENGTH} characters`)
             return;
         }
     
         setLoading(true);
         setShowLoadingModal(true);
         setError('');
+        setErrMsg('');
         
         try {
             const formData = new FormData();
             formData.append('resume', selectedFile);
             formData.append('ai_model', selectedAiModel);
+
+            if (jobDesc && jobDesc.trim() !== "") {
+                formData.append('job_description', jobDesc.trim());
+            }
             
             /** Demo ai feedback belike:
              * formData.append('ai_feedback', 'Your resume is well-structured, but you could improve your skills section by adding more action-oriented keywords.');
@@ -126,6 +146,7 @@ export default function UploadResume() {
             setShowLoadingModal(false);
             setSelectedFile(null);
             setPreviewURL('');
+            setJobDesc('');
 
             if (response.status === 200) {
                 const resumeId = response.data.id;
@@ -169,7 +190,7 @@ export default function UploadResume() {
                         <div className="mb-6 w-full max-w-xl flex flex-col sm:flex-row sm:items-center gap-3">
                             <label
                                 htmlFor="ai-model"
-                                className="text-white dark:text-gray-200 font-medium whitespace-nowrap"
+                                className="text-white font-medium whitespace-nowrap"
                             >
                                 AI Model:
                             </label>
@@ -180,7 +201,7 @@ export default function UploadResume() {
                                         bg-slate-200 dark:bg-slate-800
                                         text-gray-700 dark:text-gray-200
                                         text-sm p-3 focus:outline-none 
-                                        focus:ring-2 focus:ring-violet-500"
+                                        focus:ring-2 focus:ring-violet-500 transition-all duration-200"
                                 value={selectedAiModel}
                                 onChange={(e) => setSelectedAiModel(e.target.value)}
                             >
@@ -196,8 +217,45 @@ export default function UploadResume() {
                             </select>
                         </div>
 
+                        {/* Job Description */}
+                        <div className="w-full max-w-xl">
+                            <label
+                                htmlFor="jobDescription"
+                                className="block text-sm font-semibold text-white mb-2"
+                            >
+                                Job Description (Optional):
+                            </label>
+                            <textarea
+                                name="job_description"
+                                id="jobDescription"
+                                rows="5"
+                                value={jobDesc}
+                                onChange={handleJobDescChange}
+                                className="w-full resize-none rounded-lg border border-gray-300 dark:border-gray-600 
+                                        bg-slate-200 dark:bg-slate-800 
+                                        px-4 py-3 text-sm text-gray-800 dark:text-gray-200
+                                        focus:outline-none focus:ring-2 focus:ring-violet-500 
+                                        transition-all duration-200"
+                                placeholder="Adding a job description helps the AI analyze your resume better..."
+                            />
+                            <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
+                                {/* Error message */}
+                                <div className="text-left">
+                                    { errMsg && (
+                                        <span className="text-red-500 text-sm">{errMsg}</span>
+                                    )}
+                                </div>
+                                {/* Live character counter */}
+                                <div className="text-right text-xs sm:text-sm text-gray-400">
+                                    <span className={jobDesc.length > MAX_LENGTH ? 'text-red-500' : ''}>
+                                        {jobDesc.length}
+                                    </span> / {MAX_LENGTH} characters
+                                </div>
+                            </div>
+                        </div>
+
                         {/* Drag and Drop zone */}
-                        <div className="bg-purple-800 bg-opacity-40 rounded-2xl shadow-xl w-full max-w-xl p-6 text-center">
+                        <div className="mt-4 bg-purple-800 bg-opacity-40 rounded-2xl shadow-xl w-full max-w-xl p-6 text-center">
                             <div 
                                 onDragOver={handleDragOver}
                                 onDragLeave={handleDragLeave}
