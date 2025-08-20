@@ -31,6 +31,7 @@ import ProfileImageTab from './components/Profile/EditProfileTabs/ProfileImageTa
 import Feedback from './components/Analyzer/Feedback';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import GuestRoute from './components/Auth/GuestRoute';
+import CoverLetterGenerator from './components/CoverLetter/CoverLetterGenerator';
 
 export default function App() {
   
@@ -87,8 +88,10 @@ export default function App() {
               <Route path="certifications" element={<CertificationsTab />} />
             </Route>
 
-            <Route path="/analyzer/upload-resume" element={<UploadResume />} />
+            {/* AI Tools routes */}
+            <Route path="/ai-tools/resume-analyzer" element={<UploadResume />} />
             <Route path="/feedback/:id" element={<Feedback />} />
+            <Route path="/ai-tools/cover-letter-generator" element={<CoverLetterGenerator />} />
 
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/404" element={<PageNotFound />} />

@@ -9,7 +9,8 @@ import { FaCaretDown, FaUserCircle } from 'react-icons/fa';
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { HiMenuAlt1, HiMenuAlt3 } from 'react-icons/hi';
-import { LuSettings } from "react-icons/lu";
+import { LuSettings, LuPencilLine } from "react-icons/lu";
+import { TbDeviceAnalytics } from "react-icons/tb";
 import ResponsiveMenu from './ResponsiveMenu';
 import aira from '../../assets/aira.png';
 import n1 from '../../assets/Navbar/n1.jpg';
@@ -198,8 +199,36 @@ export default function Navbar() {
                             </li>
                             {isAuthenticated ? (
                             <>
-                                <li className="cursor-pointer">
-                                    <Link to="/analyzer/upload-resume">Analyzer</Link>
+                                <li className='group relative cursor-pointer'>
+                                    <span className='flex items-center gap-[2px] h-[72px]'>
+                                        AI Tools
+                                        <span>
+                                            <FaCaretDown className='transition-all duration-200 group-hover:rotate-180' />
+                                        </span>
+                                    </span>
+                                    {/* Dropdown section */}
+                                    <div className="absolute right-0 top-full z-50 hidden 
+                                        bg-gradient-to-r from-[#8741eb] to-[#5b4be7] 
+                                        shadow-lg p-3 text-white rounded-xl 
+                                        group-hover:block 
+                                        min-w-[180px] sm:min-w-[200px] md:min-w-[220px] lg:min-w-[240px] 
+                                        w-fit"
+                                    >
+                                        <ul className="space-y-2">
+                                            <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                                <Link to="/ai-tools/resume-analyzer" className="flex items-center gap-2 text-sm w-full">
+                                                    <TbDeviceAnalytics className='w-5 h-5' />
+                                                    Resume Analyzer
+                                                </Link>
+                                            </li>
+                                            <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
+                                                <Link to="/ai-tools/cover-letter-generator" className="flex items-center gap-2 text-sm w-full">
+                                                    <LuPencilLine className='w-5 h-5' />
+                                                    Cover Letter Generator
+                                                </Link>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <li className="cursor-pointer">
                                     <Link to="/dashboard">Dashboard</Link>

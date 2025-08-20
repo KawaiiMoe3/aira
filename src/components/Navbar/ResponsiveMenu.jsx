@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { FaChevronDown, FaGithub } from "react-icons/fa";
 import guest from '../../assets/guest.png';
 import { IoHomeOutline, IoInformationCircleOutline } from "react-icons/io5";
-import { RiMenuSearchLine } from "react-icons/ri";
+import { RiMenuSearchLine, RiApps2AiLine } from "react-icons/ri";
 import { TbDeviceAnalytics, TbLayoutDashboard } from "react-icons/tb";
 import { LuSettings } from "react-icons/lu";
 

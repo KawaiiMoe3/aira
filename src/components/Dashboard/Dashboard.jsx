@@ -137,7 +137,7 @@ export default function Dashboard() {
                     </div>
                     {/* Upload Resume button */}
                     <div className='mt-12 flex justify-center'>
-                        <Link to="/analyzer/upload-resume">
+                        <Link to="/ai-tools/resume-analyzer">
                             <button className='btn-primary flex items-center gap-2'>
                                 <MdOutlineRocketLaunch className='w-5 h-5' />
                                 Boost Your Resume Now!

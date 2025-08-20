@@ -25,7 +25,7 @@ export default function Hero() {
             <div className="space-x-4 mt-4">
               {
                 isAuthenticated ? (
-                  <Link to="/analyzer/upload-resume" className="btn-primary">
+                  <Link to="/ai-tools/resume-analyzer" className="btn-primary">
                     Analyze Resume
                   </Link>
                 ) : (
