@@ -261,7 +261,7 @@ export default function UploadResume() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                                 className={`flex items-center justify-center w-full transition-all duration-300 ease-in-out ${
-                                    dragActive ? 'border-blue-500 bg-purple-900 bg-opacity-30' : ''
+                                    dragActive ? 'border-blue-500 bg-purple-600 bg-opacity-30' : ''
                                   }`}
                             >
                                 <label 

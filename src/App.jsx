@@ -88,10 +88,10 @@ export default function App() {
               <Route path="certifications" element={<CertificationsTab />} />
             </Route>
 
-            {/* AI Tools routes */}
-            <Route path="/ai-tools/resume-analyzer" element={<UploadResume />} />
+            {/* Analyzers routes */}
+            <Route path="/analyzer/resume-analyzer" element={<UploadResume />} />
             <Route path="/feedback/:id" element={<Feedback />} />
-            <Route path="/ai-tools/cover-letter-generator" element={<CoverLetterGenerator />} />
+            <Route path="/analyzer/cover-letter-generator" element={<CoverLetterGenerator />} />
 
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/404" element={<PageNotFound />} />

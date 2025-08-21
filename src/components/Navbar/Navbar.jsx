@@ -201,7 +201,7 @@ export default function Navbar() {
                             <>
                                 <li className='group relative cursor-pointer'>
                                     <span className='flex items-center gap-[2px] h-[72px]'>
-                                        AI Tools
+                                        Analyzers
                                         <span>
                                             <FaCaretDown className='transition-all duration-200 group-hover:rotate-180' />
                                         </span>
@@ -216,13 +216,13 @@ export default function Navbar() {
                                     >
                                         <ul className="space-y-2">
                                             <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
-                                                <Link to="/ai-tools/resume-analyzer" className="flex items-center gap-2 text-sm w-full">
+                                                <Link to="/analyzer/resume-analyzer" className="flex items-center gap-2 text-sm w-full">
                                                     <TbDeviceAnalytics className='w-5 h-5' />
                                                     Resume Analyzer
                                                 </Link>
                                             </li>
                                             <li className="flex items-center gap-2 p-2 rounded-md hover:bg-violet-500 transition">
-                                                <Link to="/ai-tools/cover-letter-generator" className="flex items-center gap-2 text-sm w-full">
+                                                <Link to="/analyzer/cover-letter-generator" className="flex items-center gap-2 text-sm w-full">
                                                     <LuPencilLine className='w-5 h-5' />
                                                     Cover Letter Generator
                                                 </Link>
