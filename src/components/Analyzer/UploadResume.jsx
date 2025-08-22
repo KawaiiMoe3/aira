@@ -174,7 +174,7 @@ export default function UploadResume() {
             <Helmet>
                 <title>AIRA | Free Resume Review</title>
             </Helmet>
-                <Navbar />
+            <Navbar />
             <div className='bg-slate-100 dark:bg-slate-900 pt-20'>
                 <div className="container p-2">
                     <div className='flex flex-col items-center justify-center bg-gradient-to-r from-violet-950 to-violet-900 text-white p-12 my-12 rounded-2xl shadow-xl w-full max-w-4xl mx-auto'>
@@ -261,7 +261,7 @@ export default function UploadResume() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                                 className={`flex items-center justify-center w-full transition-all duration-300 ease-in-out ${
-                                    dragActive ? 'border-blue-500 bg-purple-900 bg-opacity-30' : ''
+                                    dragActive ? 'border-blue-500 bg-purple-600 bg-opacity-30' : ''
                                   }`}
                             >
                                 <label 

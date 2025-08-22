@@ -20,7 +20,7 @@ export default function CopyButton({ textToCopy }) {
         >
         {copied ? (
             <>
-                <FiCheck className="text-white" />
+                <FiCheck />
                 Copied
             </>
         ) : (

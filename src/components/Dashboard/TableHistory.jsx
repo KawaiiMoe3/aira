@@ -65,6 +65,7 @@ const headCells = [
     { id: 'no', numeric: false, disablePadding: false, label: 'No.' },
     { id: 'title', numeric: false, disablePadding: true, label: 'Title' },
     { id: 'date', numeric: false, disablePadding: false, label: 'Date' },
+    { id: 'type', numeric: false, disablePadding: false, label: 'Type' },
     { id: 'ai_model', numeric: false, disablePadding: false, label: 'AI Model' },
     { id: 'uploadedResume', numeric: false, disablePadding:false, label: 'Uploaded Resume' },
     { id: 'analysisReport', numeric: false, disablePadding: false, label: 'Analysis Report' },
@@ -381,6 +382,7 @@ export default function TableHistory() {
                                                 {row.title}
                                             </TableCell>
                                             <TableCell>{row.date}</TableCell>
+                                            <TableCell>{row.type}</TableCell>
                                             <TableCell>{row.ai_model}</TableCell>
                                             <TableCell>
                                                 <a href={`${API_BASE_URL}download-uploaded-resume/${row.uploadedResume}/`} className="text-purple-500 hover:text-purple-700 duration-200" download>
