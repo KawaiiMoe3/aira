@@ -8,7 +8,7 @@ import guest from '../../assets/guest.png';
 import { IoHomeOutline, IoInformationCircleOutline } from "react-icons/io5";
 import { RiMenuSearchLine, RiApps2AiLine } from "react-icons/ri";
 import { TbDeviceAnalytics, TbLayoutDashboard } from "react-icons/tb";
-import { LuSettings } from "react-icons/lu";
+import { LuSettings, LuPencilLine } from "react-icons/lu";
 
 export default function ResponsiveMenu({ showMenu, profileImage }) {
     // console.log("showMenu", showMenu);
@@ -179,13 +179,41 @@ export default function ResponsiveMenu({ showMenu, profileImage }) {
                             isAuthenticated ? (
                                 <>
                                     <li>
-                                        <Link
-                                            to="/analyzer/upload-resume"
-                                            className='mb-2 inline-block flex items-center gap-1'
+                                        <button
+                                            onClick={() => toggleDropdown("analyzers")}
+                                            className="inline-flex items-center gap-1"
                                         >
-                                            <TbDeviceAnalytics className='w-5 h-5' />
-                                            Analyzer
-                                        </Link>
+                                            <RiApps2AiLine className='w-5 h-5' />
+                                            Analyzers
+                                            <FaChevronDown
+                                                className={`transform transition-transform duration-300 ${
+                                                    activeDropdown === "analyzers" ? "rotate-180" : ""
+                                                }`}
+                                                size={12}
+                                            />
+                                        </button>
+                                        {activeDropdown === "analyzers" && (
+                                            <ul className="ml-4 mt-2 space-y-2 text-base text-slate-700 dark:text-slate-300">
+                                                <li>
+                                                    <Link
+                                                        to="/analyzer/resume-analyzer"
+                                                        className='mb-2 flex items-center gap-1 inline-block hover:text-primary'
+                                                    >
+                                                        <TbDeviceAnalytics className='w-5 h-5' />
+                                                        Resume Analyzer
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link 
+                                                        to="/analyzer/cover-letter-generator" 
+                                                        className="flex items-center gap-1 block hover:text-primary"
+                                                    >
+                                                        <LuPencilLine className='w-5 h-5' />
+                                                        Cover Letter Generator
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        )}
                                     </li>
                                     <li>
                                         <Link
