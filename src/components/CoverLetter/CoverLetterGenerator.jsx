@@ -12,6 +12,7 @@ import { TbCloudUpload } from "react-icons/tb";
 import { RiAiGenerate2 } from "react-icons/ri";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { LuDownload } from "react-icons/lu";
+import { TiTick } from "react-icons/ti";
 
 const MAX_FILE_SIZE_MB = 5;
 const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; // pdf, docx
@@ -133,7 +134,10 @@ export default function CoverLetterGenerator() {
                 <title>Free AI Cover Letter Generator | AIRA</title>
             </Helmet>
             <Navbar />
-            <div className="min-h-screen flex items-center justify-center py-40">
+            <h1 className='text-center pt-40 text-purple-500 font-semibold uppercase'>
+                Generate as many cover letters as you need
+            </h1>
+            <div className="flex items-center justify-center pt-10 pb-40 px-2">
                 <div className="max-w-2xl w-full bg-white shadow-xl rounded-2xl p-6 bg-gradient-to-r from-violet-950 to-violet-900">
                     {/* Step Indicators */}
                     <div className="flex justify-center items-center mb-6">
@@ -141,13 +145,15 @@ export default function CoverLetterGenerator() {
                         <div key={s} className="flex items-center">
                             {/* Step circle */}
                             <div
-                                className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-colors
+                                className={`w-8 h-8 flex items-center justify-center font-semibold rounded-full border-2 transition-colors
                                 ${step >= s
                                     ? "bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white border-transparent"
-                                    : "bg-white text-gray-600 border-gray-300"}
+                                    : "bg-gray-500 text-white border-gray-300"}
                                 `}
                             >
-                                {s}
+                                {step > s ? (
+                                    <TiTick className='w-5 h-5' />
+                                ) : s}
                             </div>
 
                             {/* Line (not after last step) */}
