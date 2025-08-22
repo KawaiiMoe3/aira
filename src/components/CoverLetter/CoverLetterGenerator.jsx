@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet'
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer';
+import CopyButton from '../CopyButton/CopyButton';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import AiAnalyzingModal from '../LoadingModal/AiAnalyzingModal';
 
@@ -25,6 +26,7 @@ export default function CoverLetterGenerator() {
     const [errorFileMsg, setErrorFileMsg] = useState('');
     const [errorGeneratedLetter, setErrorGeneratedLetter] = useState('');
     const [showLoadingModal, setShowLoadingModal] = useState(false);
+    const [downloadCoverLetter, setDownloadCoverLetter] = useState(null);
 
     const handleResumeUpload = (e) => {
         const file = e.target.files[0];
@@ -105,6 +107,8 @@ export default function CoverLetterGenerator() {
             // Move to step 3 on success and display the AI feedback(cover letter)
             if (response.status === 200) {
                 setGeneratedLetter(response.data.ai_feedback);
+                setDownloadCoverLetter(response.data.analysis_report);
+                console.log(response.data.analysis_report);
                 setStep(3);
             }
         } catch (error) {
@@ -118,6 +122,7 @@ export default function CoverLetterGenerator() {
     const handleReset = () => {
         setResumeFile(null);
         setJobDescription("");
+        setSelectedAiModel();
         setGeneratedLetter("");
         setStep(1);
     };
@@ -131,20 +136,32 @@ export default function CoverLetterGenerator() {
             <div className="min-h-screen flex items-center justify-center py-40">
                 <div className="max-w-2xl w-full bg-white shadow-xl rounded-2xl p-6 bg-gradient-to-r from-violet-950 to-violet-900">
                     {/* Step Indicators */}
-                    <div className="flex justify-center items-center space-x-6 mb-6">
-                        {[1, 2, 3].map((s) => (
-                        <div
-                            key={s}
-                            className={`w-8 h-8 flex items-center justify-center rounded-full border-2 ${
-                            step >= s
-                                ? "bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white"
-                                : "bg-white text-gray-600 border-gray-300"
-                            }`}
-                        >
-                            {s}
+                    <div className="flex justify-center items-center mb-6">
+                    {[1, 2, 3].map((s, idx, arr) => (
+                        <div key={s} className="flex items-center">
+                            {/* Step circle */}
+                            <div
+                                className={`w-8 h-8 flex items-center justify-center rounded-full border-2 transition-colors
+                                ${step >= s
+                                    ? "bg-gradient-to-r from-[#8741eb] to-[#5b4be7] text-white border-transparent"
+                                    : "bg-white text-gray-600 border-gray-300"}
+                                `}
+                            >
+                                {s}
+                            </div>
+
+                            {/* Line (not after last step) */}
+                            {idx < arr.length -1 && (
+                                <div
+                                    className={`w-12 h-1 mx-2 rounded ${
+                                        step > s ? "bg-gradient-to-r from-[#8741eb] to-[#5b4be7]" : "bg-gray-300"
+                                    }`}
+                                ></div>
+                            )}
                         </div>
-                        ))}
+                    ))}
                     </div>
+
                     <h2 className="my-4 text-3xl text-center font-bold text-white">Cover Letter Generator</h2>
 
                     {/* Step 1: Upload Resume */}
@@ -271,7 +288,7 @@ export default function CoverLetterGenerator() {
                                     </button>
                                     <button
                                         onClick={handleGenerate}
-                                        disabled={!jobDescription}
+                                        disabled={!jobDescription || showLoadingModal}
                                         className="flex items-center gap-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         <RiAiGenerate2 className='w-6 h-6' />
@@ -291,9 +308,17 @@ export default function CoverLetterGenerator() {
                                         {errorGeneratedLetter}
                                     </p>
                                 ) : (
-                                    <pre className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200">
-                                        {generatedLetter}
-                                    </pre>
+                                    <>
+                                        <div className='flex justify-between items-center mb-4'>
+                                           <h2 className='font-semibold text-lg text-black dark:text-white'>
+                                                [Example of Cover Letter]
+                                            </h2>
+                                            <CopyButton textToCopy={generatedLetter} />
+                                        </div>
+                                        <pre className="whitespace-pre-wrap text-sm text-gray-800 dark:text-gray-200">
+                                            {generatedLetter}
+                                        </pre>
+                                    </>
                                 )}
                             </div>
                             <div className="flex justify-between">
@@ -303,10 +328,24 @@ export default function CoverLetterGenerator() {
                                 >
                                     <FaArrowLeft /> Back
                                 </button>
-                                <button className="flex items-center gap-2 btn-primary">
-                                    <LuDownload className='w-5 h-5' />
-                                    Download
-                                </button>
+                                {downloadCoverLetter ? (
+                                    <a
+                                        href={`${API_BASE_URL}download-analysis-report/${downloadCoverLetter}/`}
+                                        className="flex items-center gap-2 btn-primary"
+                                        download
+                                    >
+                                        <LuDownload className='w-5 h-5' />
+                                        Download
+                                    </a>
+                                ) : (
+                                    <button 
+                                        className="flex items-center gap-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                                        disabled
+                                    >
+                                        <LuDownload className='w-5 h-5' />
+                                        Download Not Available
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
