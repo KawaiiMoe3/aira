@@ -1,10 +1,9 @@
 import React from 'react'
 import { useAuth } from '../../contexts/AuthContext';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
-export default function GuestRoute() {
+export default function ProtectedRoute() {
     const { isAuthenticated, loading } = useAuth();
-    const location = useLocation();
 
     if (loading) {
         return (
@@ -14,11 +13,6 @@ export default function GuestRoute() {
         );
     }
 
-    // If user tries to access signin/signup while logged in,
-    // just send them back to the page they were already on
-    if (isAuthenticated) {
-        return <Navigate to={location.state?.from?.pathname || "/dashboard"} replace />;
-    } else {
-        return <Outlet />;
-    }
+    // If user is logged in, the user can access the protected routes
+    return isAuthenticated ? <Outlet /> : <Navigate to="/signin" replace />;
 }
