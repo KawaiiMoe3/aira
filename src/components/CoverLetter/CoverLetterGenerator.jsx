@@ -13,6 +13,7 @@ import { RiAiGenerate2 } from "react-icons/ri";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { LuDownload } from "react-icons/lu";
 import { TiTick } from "react-icons/ti";
+import Tooltip from "@mui/material/Tooltip";
 
 const MAX_FILE_SIZE_MB = 5;
 const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; // pdf, docx
@@ -275,30 +276,41 @@ export default function CoverLetterGenerator() {
                                 />
                             </div>
                             {/* File info + actions */}
-                            <div className="flex justify-between items-center">
+                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                                 {resumeFile && (
-                                <div className="flex items-center gap-2 text-white px-3 py-1">
-                                    <IoDocumentTextOutline className='w-5 h-5' />
-                                    <span>{resumeFile.name}</span>
-                                    <button onClick={handleReset}>
-                                        <FaTimes className="text-red-500" title='delete' />
-                                    </button>
-                                </div>
+                                    <div className="flex items-center gap-2 text-white px-3 py-1 min-w-0 sm:max-w-xs md:max-w-sm lg:max-w-md">
+                                        <IoDocumentTextOutline className="w-5 h-5 flex-shrink-0" />
+
+                                        {/* Ellipsis + Tooltip (MUI) */}
+                                        <Tooltip title={resumeFile.name} arrow placement="bottom">
+                                            <span className="truncate block max-w-full cursor-default">
+                                                {resumeFile.name}
+                                            </span>
+                                        </Tooltip>
+
+                                        <button onClick={handleReset}>
+                                            <Tooltip title="delete" placement="bottom-end">
+                                                <FaTimes className="text-red-500" />
+                                            </Tooltip>
+                                        </button>
+                                    </div>
                                 )}
-                                <div className="flex gap-2 ml-auto">
+
+                                {/* Action buttons */}
+                                <div className="flex gap-2 ml-auto sm:ml-0">
                                     <button
-                                        onClick={handleReset}
-                                        className="flex items-center gap-1 btn-outline"
+                                    onClick={handleReset}
+                                    className="flex items-center gap-1 btn-outline"
                                     >
-                                        <FaArrowLeft className='w-4 h-4' /> Back
+                                    <FaArrowLeft className="w-4 h-4" /> Back
                                     </button>
                                     <button
-                                        onClick={handleGenerate}
-                                        disabled={!jobDescription || showLoadingModal}
-                                        className="flex items-center gap-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                                    onClick={handleGenerate}
+                                    disabled={!jobDescription || showLoadingModal}
+                                    className="flex items-center gap-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        <RiAiGenerate2 className='w-6 h-6' />
-                                        Generate
+                                    <RiAiGenerate2 className="w-6 h-6" />
+                                    Generate
                                     </button>
                                 </div>
                             </div>

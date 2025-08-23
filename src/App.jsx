@@ -32,6 +32,7 @@ import Feedback from './components/Analyzer/Feedback';
 import PageNotFound from './components/PageNotFound/PageNotFound';
 import GuestRoute from './components/Auth/GuestRoute';
 import CoverLetterGenerator from './components/CoverLetter/CoverLetterGenerator';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 
 export default function App() {
   
@@ -46,54 +47,46 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/faqs" element={<Faqs />} />
 
-            <Route 
-              path="/signin" 
-              element={
-                <GuestRoute>
-                  <SignIn />
-                </GuestRoute>
-              } 
-            />
-            <Route 
-              path="/signup" 
-              element={
-                <GuestRoute>
-                  <SignUp />
-                </GuestRoute>
-              } 
-            />
+            {/* Guest routes (Only for non-authenticated users) */}
+            <Route element={<GuestRoute />}>
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Route>
 
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
 
-            {/* Account nested routes */}
-            <Route path="/account" element={<Account />}>
-              <Route index element={<Navigate to="general" />} />
-              <Route path="general" element={<GeneralTab />} />
-              <Route path="password" element={<PasswordTab />} />
+            {/* Protected routes (Only for authenticated users) */}
+            <Route element={<ProtectedRoute />}>
+              {/* Account nested routes */}
+              <Route path="/account" element={<Account />}>
+                <Route index element={<Navigate to="general" />} />
+                <Route path="general" element={<GeneralTab />} />
+                <Route path="password" element={<PasswordTab />} />
+              </Route>
+
+              {/* Profile nested routes */}
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit-profile" element={<EditProfile /> }>
+                <Route index element={<Navigate to="profile-info" />} />
+                <Route path="profile-info" element={<ProfileInfoTab />} />
+                <Route path="profile-image" element={<ProfileImageTab />} />
+                <Route path="summary" element={<SummaryTab />} />
+                <Route path="languages" element={<LanguagesTab />} />
+                <Route path="skills" element={<SkillsTab />} />
+                <Route path="education" element={<EducationTab />} />
+                <Route path="professional" element={<ProfessionalRab />} />
+                <Route path="projects" element={<ProjectsTab />} />
+                <Route path="certifications" element={<CertificationsTab />} />
+              </Route>
+
+              {/* Analyzers routes */}
+              <Route path="/analyzer/resume-analyzer" element={<UploadResume />} />
+              <Route path="/feedback/:id" element={<Feedback />} />
+              <Route path="/analyzer/cover-letter-generator" element={<CoverLetterGenerator />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 
-            {/* Profile nested routes */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/edit-profile" element={<EditProfile /> }>
-              <Route index element={<Navigate to="profile-info" />} />
-              <Route path="profile-info" element={<ProfileInfoTab />} />
-              <Route path="profile-image" element={<ProfileImageTab />} />
-              <Route path="summary" element={<SummaryTab />} />
-              <Route path="languages" element={<LanguagesTab />} />
-              <Route path="skills" element={<SkillsTab />} />
-              <Route path="education" element={<EducationTab />} />
-              <Route path="professional" element={<ProfessionalRab />} />
-              <Route path="projects" element={<ProjectsTab />} />
-              <Route path="certifications" element={<CertificationsTab />} />
-            </Route>
-
-            {/* Analyzers routes */}
-            <Route path="/analyzer/resume-analyzer" element={<UploadResume />} />
-            <Route path="/feedback/:id" element={<Feedback />} />
-            <Route path="/analyzer/cover-letter-generator" element={<CoverLetterGenerator />} />
-
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/404" element={<PageNotFound />} />
             <Route path="*" element={<PageNotFound />} /> {/* Any unknown path redirect to 404 */}
           </Routes>

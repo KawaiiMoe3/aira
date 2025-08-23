@@ -10,6 +10,7 @@ import { Helmet } from 'react-helmet';
 import { IoInformationCircle } from "react-icons/io5";
 import { LuDownload } from "react-icons/lu";
 import logo from '../../assets/logo.png';
+import LoadingFeedbackSkeleton from '../LoadingModal/LoadingFeedbackSkeleton';
 
 export default function Feedback() {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Feedback() {
     const [downloadAnalysisReport, setDownloadAnalysisReport] = useState(null);
 
     useEffect(() => {
+        setLoading(true);
         const fetchFeedback = async () => {
             try {
                 const res = await axios.get(`${API_BASE_URL}feedback/${id}`, {
@@ -48,7 +50,7 @@ export default function Feedback() {
     //     onAfterPrint: () => console.log('Analysis report downloaded.'),
     // });
 
-    if (loading) return <div className="text-center text-white mt-10">Loading feedback...</div>;
+    if (loading) return <LoadingFeedbackSkeleton />;
     if (error) return <div className="text-center text-red-500 mt-10">{error}</div>;
 
     return (
