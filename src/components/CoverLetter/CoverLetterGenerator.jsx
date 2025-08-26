@@ -5,6 +5,7 @@ import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer';
 import CopyButton from '../CopyButton/CopyButton';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
+import { RECAPTCHA_SITE_KEY } from '../../utils/ViteReCaptchaSiteKey';
 import AiAnalyzingModal from '../LoadingModal/AiAnalyzingModal';
 
 import { FaLock, FaArrowLeft, FaTimes } from "react-icons/fa";
@@ -14,6 +15,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { LuDownload } from "react-icons/lu";
 import { TiTick } from "react-icons/ti";
 import Tooltip from "@mui/material/Tooltip";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const MAX_FILE_SIZE_MB = 5;
 const ALLOWED_TYPES = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; // pdf, docx
@@ -29,6 +31,8 @@ export default function CoverLetterGenerator() {
     const [errorGeneratedLetter, setErrorGeneratedLetter] = useState('');
     const [showLoadingModal, setShowLoadingModal] = useState(false);
     const [downloadCoverLetter, setDownloadCoverLetter] = useState(null);
+    const [reCaptchaToken, setRecaptchaToken] = useState("");
+    const [toastMsg, setToastMsg] = useState("");
 
     const handleResumeUpload = (e) => {
         const file = e.target.files[0];
@@ -72,6 +76,10 @@ export default function CoverLetterGenerator() {
             handleResumeUpload({ target: { files: e.dataTransfer.files } });
         }
     };
+
+    const handleReCaptcha = (token) => {
+        setRecaptchaToken(token);
+    }
     
     const handleGenerate = async () => {
         // Validation for resume and job desc both are required
@@ -79,13 +87,21 @@ export default function CoverLetterGenerator() {
             return
         }
 
+        // Google reCaptcha validation
+        if (!reCaptchaToken) {
+            setToastMsg("Please verify that you are not a robot.");
+            return
+        }
+
         setShowLoadingModal(true);
+        setInterval(() => setToastMsg(''), 3000);
 
         try {
             const formData = new FormData();
             formData.append('resume', resumeFile);
             formData.append('ai_model', selectedAiModel);
             formData.append('job_description', jobDescription);
+            formData.append('g-recaptcha-response', reCaptchaToken);
 
             // Get CSRF token from backend
             const csrfResponse = await axios.get(`${API_BASE_URL}csrf/`, {
@@ -116,6 +132,7 @@ export default function CoverLetterGenerator() {
         } catch (error) {
             console.error(error);
             setErrorGeneratedLetter(error.response?.data?.error || "Something went wrong...");
+            setToastMsg(error.response?.data?.error || "Something went wrong...");
         } finally {
             setShowLoadingModal(false);
         }
@@ -135,6 +152,14 @@ export default function CoverLetterGenerator() {
                 <title>Free AI Cover Letter Generator | AIRA</title>
             </Helmet>
             <Navbar />
+            {/* Toast */}
+            {toastMsg && (
+                <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className="bg-red-500 text-white px-4 py-2 rounded shadow-md text-sm w-[300px] text-center">
+                        {toastMsg}
+                    </div>
+                </div>
+            )}
             <h1 className='text-center pt-40 text-purple-500 font-semibold uppercase'>
                 Generate as many cover letters as you need
             </h1>
@@ -275,6 +300,15 @@ export default function CoverLetterGenerator() {
                                     onChange={(e) => setJobDescription(e.target.value)}
                                 />
                             </div>
+
+                            {/* Google reCaptcha */}
+                            <div className='flex justify-center py-2'>
+                                <ReCAPTCHA 
+                                    sitekey={RECAPTCHA_SITE_KEY}
+                                    onChange={handleReCaptcha}
+                                />
+                            </div>
+
                             {/* File info + actions */}
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                                 {resumeFile && (
@@ -299,18 +333,18 @@ export default function CoverLetterGenerator() {
                                 {/* Action buttons */}
                                 <div className="flex gap-2 ml-auto sm:ml-0">
                                     <button
-                                    onClick={handleReset}
-                                    className="flex items-center gap-1 btn-outline"
+                                        onClick={handleReset}
+                                        className="flex items-center gap-1 btn-outline"
                                     >
-                                    <FaArrowLeft className="w-4 h-4" /> Back
+                                        <FaArrowLeft className="w-4 h-4" /> Back
                                     </button>
                                     <button
-                                    onClick={handleGenerate}
-                                    disabled={!jobDescription || showLoadingModal}
-                                    className="flex items-center gap-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                                        onClick={handleGenerate}
+                                        disabled={!jobDescription || !reCaptchaToken || showLoadingModal}
+                                        className="flex items-center gap-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                    <RiAiGenerate2 className="w-6 h-6" />
-                                    Generate
+                                        <RiAiGenerate2 className="w-6 h-6" />
+                                        Generate
                                     </button>
                                 </div>
                             </div>
