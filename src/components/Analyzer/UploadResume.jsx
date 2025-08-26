@@ -6,6 +6,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { API_BASE_URL } from '../../utils/ViteApiBaseUrl';
 import { Helmet } from "react-helmet";
 import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
+import { RECAPTCHA_SITE_KEY } from '../../utils/ViteReCaptchaSiteKey';
 import AiAnalyzingModal from '../LoadingModal/AiAnalyzingModal';
 
 import { LuScanText } from "react-icons/lu";
@@ -30,6 +32,8 @@ export default function UploadResume() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [showLoadingModal, setShowLoadingModal] = useState(false);
+    const [reCaptchaToken, setRecaptchaToken] = useState("");
+    const [toastMsg, setToastMsg] = useState("");
 
     const validateFile = (file) => {
         if (!ALLOWED_TYPES.includes(file.type)) {
@@ -96,6 +100,10 @@ export default function UploadResume() {
         }
     };
 
+    const handleRecaptcha = (token) => {
+        setRecaptchaToken(token);
+    }
+
     const handleAnalyze = async () => {
         if (!selectedFile) {
             setError('Please select a resume to analyze.');
@@ -104,17 +112,26 @@ export default function UploadResume() {
             setErrMsg(`Job description exceeded ${MAX_LENGTH} characters`)
             return;
         }
+
+        // Google reCaptcha validation
+        if (!reCaptchaToken) {
+            setToastMsg("Please verify that you are not a robot.");
+            return
+        }
     
         setLoading(true);
         setShowLoadingModal(true);
         setError('');
         setErrMsg('');
+        setTimeout(() => setToastMsg(''), 3000);
         
         try {
             const formData = new FormData();
             formData.append('resume', selectedFile);
             formData.append('ai_model', selectedAiModel);
+            formData.append('g-recaptcha-response', reCaptchaToken);
 
+            // If job description is provided
             if (jobDesc && jobDesc.trim() !== "") {
                 formData.append('job_description', jobDesc.trim());
             }
@@ -153,14 +170,17 @@ export default function UploadResume() {
                 window.open(`/feedback/${resumeId}`, '_blank');
             } else {
                 setError('Failed to analyze resume. please try again.');
+                setToastMsg('Failed to analyze resume. please try again.');
             }
         } catch (error) {
             console.error(error);
         
             if (error.response && error.response.data && error.response.data.error) {
                 setError(error.response.data.error);
+                setToastMsg(error.response.data.error);
             } else {
                 setError('Server error. Please try again later.');
+                setToastMsg('Server error. Please try again later.');
             }
         
             setShowLoadingModal(false);
@@ -175,6 +195,14 @@ export default function UploadResume() {
                 <title>AIRA | Free Resume Review</title>
             </Helmet>
             <Navbar />
+            {/* Toast */}
+            {toastMsg && (
+                <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50">
+                    <div className="bg-red-500 text-white px-4 py-2 rounded shadow-md text-sm w-[300px] text-center">
+                        {toastMsg}
+                    </div>
+                </div>
+            )}
             <div className='bg-slate-100 dark:bg-slate-900 pt-20'>
                 <div className="container p-2">
                     <div className='flex flex-col items-center justify-center bg-gradient-to-r from-violet-950 to-violet-900 text-white p-12 my-12 rounded-2xl shadow-xl w-full max-w-4xl mx-auto'>
@@ -321,6 +349,14 @@ export default function UploadResume() {
                                     Preview not supported for DOCX files.
                                 </div>
                             )}
+                        </div>
+
+                        {/* Google recaptcha */}
+                        <div className='mt-8'>
+                            <ReCAPTCHA 
+                                sitekey={RECAPTCHA_SITE_KEY}
+                                onChange={handleRecaptcha}
+                            />
                         </div>
 
                         {/* Analyze Resume Button */}
