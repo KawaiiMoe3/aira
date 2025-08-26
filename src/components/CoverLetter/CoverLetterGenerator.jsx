@@ -82,6 +82,8 @@ export default function CoverLetterGenerator() {
     }
     
     const handleGenerate = async () => {
+        setInterval(() => setToastMsg(''), 3000);
+        
         // Validation for resume and job desc both are required
         if (!resumeFile || !jobDescription) {
             return
@@ -94,7 +96,6 @@ export default function CoverLetterGenerator() {
         }
 
         setShowLoadingModal(true);
-        setInterval(() => setToastMsg(''), 3000);
 
         try {
             const formData = new FormData();
