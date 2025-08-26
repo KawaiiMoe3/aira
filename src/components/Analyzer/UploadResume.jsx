@@ -105,6 +105,8 @@ export default function UploadResume() {
     }
 
     const handleAnalyze = async () => {
+        setTimeout(() => setToastMsg(''), 3000);
+        
         if (!selectedFile) {
             setError('Please select a resume to analyze.');
             return;
@@ -123,7 +125,6 @@ export default function UploadResume() {
         setShowLoadingModal(true);
         setError('');
         setErrMsg('');
-        setTimeout(() => setToastMsg(''), 3000);
         
         try {
             const formData = new FormData();
